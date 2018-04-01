@@ -1,15 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { IsEmail } from 'class-validator';
+import { Entity, Column, OneToMany, ManyToMany } from 'typeorm';
+import { IsEmail, IsUrl } from 'class-validator';
 
-import { BaseEntity } from '../common/base.entity';
+import { Base } from '../common/base.entity';
 
 @Entity()
-export class User extends BaseEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
-
+export class User extends Base {
     // 用户头像
     @Column()
+    @IsUrl()
     avatar: string;
 
     // 用户名
@@ -28,5 +26,4 @@ export class User extends BaseEntity {
     @Column()
     @IsEmail()
     email: string;
-
 }

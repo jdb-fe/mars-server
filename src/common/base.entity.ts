@@ -1,11 +1,24 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import moment from 'moment';
+import { Column, PrimaryGeneratedColumn, BeforeUpdate } from 'typeorm';
 
-@Entity()
-export class BaseEntity {
-    @PrimaryGeneratedColumn() id: number;
+export abstract class Base {
+    @PrimaryGeneratedColumn()
+    id: number;
 
     @Column({
         type: 'timestamp',
         default: () => 'CURRENT_TIMESTAMP'
-    }) createTime: string;
+    })
+    createAt: string;
+
+    @Column({
+        type: 'timestamp',
+        default: () => 'CURRENT_TIMESTAMP'
+    })
+    updateAt: string;
+    
+    @BeforeUpdate()
+    updateDate() {
+        this.updateAt = moment().format('YYYY-MM-DD HH:mm:ss');
+    }
 }

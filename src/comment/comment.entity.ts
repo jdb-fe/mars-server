@@ -1,14 +1,18 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, ManyToOne } from 'typeorm';
 
-import { BaseEntity } from '../common/base.entity';
+import { Base } from '../common/base.entity';
 
 @Entity()
-export class Comment extends BaseEntity {
+export class Comment extends Base {
     // 评论内容
     @Column('text')
     content: string;
-
-    // 点赞人
+    
+    // 文章
     @Column('int')
-    likes: number;
+    postId: number
+
+    // 评论人
+    @Column('int')
+    userId: number
 }
