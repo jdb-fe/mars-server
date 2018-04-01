@@ -24,6 +24,7 @@
         "class-validator": "^0.8.5",
         "express": "^4.16.3",
         "mysql": "^2.15.0",
+        "pug": "^2.0.3",
         "reflect-metadata": "^0.1.12",
         "rxjs": "^5.5.8",
         "typeorm": "^0.1.20",
