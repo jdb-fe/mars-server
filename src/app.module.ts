@@ -1,15 +1,9 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { PostModule } from './post/post.module';
 
 @Module({
-  imports: [],
-  controllers: [
-
-  ],
-  components: [],
-  modules: [
-    PostModule
-  ]
+    imports: [TypeOrmModule.forRoot(), PostModule]
 })
-export class AppModule {}
+export class AppModule { }
