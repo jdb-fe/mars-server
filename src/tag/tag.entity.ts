@@ -1,7 +1,8 @@
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, ManyToOne } from 'typeorm';
 import { IsUrl } from 'class-validator';
 
 import { Base } from '../common/base.entity';
+import { Post } from '../post/post.entity';
 
 @Entity()
 export class Tag extends Base {
@@ -17,4 +18,8 @@ export class Tag extends Base {
     // 描述
     @Column()
     description: string;
+
+    // 文章
+    @ManyToOne(type => Post, post => post.tags)
+    posts: Post[]
 }

@@ -1,9 +1,14 @@
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, OneToMany, JoinColumn } from 'typeorm';
 import { IsUrl } from 'class-validator';
 
 import { Base } from '../common/base.entity';
+import { Tag } from '../tag/tag.entity';
 
-@Entity()
+@Entity({
+    orderBy: {
+        id: 'DESC'
+    }
+})
 export class Post extends Base {
     // 标题
     @Column({ length: 100 })
@@ -28,5 +33,14 @@ export class Post extends Base {
 
     // 状态
     @Column()
-    status: boolean;
+    status: number;
+
+    // 标签
+    @OneToMany(type => Tag, tag => tag.posts, {
+        eager: true,
+        cascadeInsert: true,
+        cascadeUpdate: true
+    })
+    @JoinColumn()
+    tags: Tag[]
 }
