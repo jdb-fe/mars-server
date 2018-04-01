@@ -1,24 +1,12 @@
-import moment from 'moment';
-import { Column, PrimaryGeneratedColumn, BeforeUpdate } from 'typeorm';
+import { Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 export abstract class Base {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({
-        type: 'timestamp',
-        default: () => 'CURRENT_TIMESTAMP'
-    })
-    createAt: string;
+    @CreateDateColumn()
+    createAt: Date;
 
-    @Column({
-        type: 'timestamp',
-        default: () => 'CURRENT_TIMESTAMP'
-    })
-    updateAt: string;
-    
-    @BeforeUpdate()
-    updateDate() {
-        this.updateAt = moment().format('YYYY-MM-DD HH:mm:ss');
-    }
+    @UpdateDateColumn()
+    updateAt: Date;
 }
