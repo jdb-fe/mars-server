@@ -1,10 +1,10 @@
 {
     "type": "mysql",
-    "host": "localhost",
+    "host": "127.0.0.1",
     "username": "root",
     "password": "123456",
     "database": "news",
-    "charset": "utf8mb4",
+    "charset": "utf8mb4_general_ci",
     "entities": ["src/**/**.entity{.ts,.js}"],
     "synchronize": true
 }

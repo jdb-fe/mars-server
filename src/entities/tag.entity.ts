@@ -1,8 +1,8 @@
 import { Entity, Column, ManyToOne } from 'typeorm';
 import { IsUrl } from 'class-validator';
 
-import { Base } from '../common/base.entity';
-import { Post } from '../post/post.entity';
+import { Base } from './base';
+import { Post } from './post.entity';
 
 @Entity()
 export class Tag extends Base {

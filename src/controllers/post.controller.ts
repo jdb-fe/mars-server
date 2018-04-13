@@ -1,10 +1,10 @@
 import { Controller, Get, Param } from '@nestjs/common';
 
-import { PostService } from '../post/post.service';
-import { Post } from '../post/post.entity';
+import { PostService } from '../services/post.service';
+import { Post } from '../entities/post.entity';
 
-@Controller('api')
-export class ApiController {
+@Controller('post')
+export class PostController {
     constructor(private readonly postService: PostService) {
 
     }

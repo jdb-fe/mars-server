@@ -1,7 +1,7 @@
 import { Entity, Column, OneToMany, ManyToMany } from 'typeorm';
 import { IsEmail, IsUrl } from 'class-validator';
 
-import { Base } from '../common/base.entity';
+import { Base } from './base';
 
 @Entity()
 export class User extends Base {

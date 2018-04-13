@@ -1,8 +1,8 @@
 import { Entity, Column, OneToMany, JoinColumn } from 'typeorm';
 import { IsUrl } from 'class-validator';
 
-import { Base } from '../common/base.entity';
-import { Tag } from '../tag/tag.entity';
+import { Base } from './base';
+import { Tag } from './tag.entity';
 
 @Entity({
     orderBy: {
@@ -13,7 +13,7 @@ export class Post extends Base {
     // 标题
     @Column({ length: 100 })
     title: string;
-    
+
     // 描述
     @Column()
     description: string;

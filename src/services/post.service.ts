@@ -1,7 +1,7 @@
 import { Component } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindManyOptions } from 'typeorm';
-import { Post } from './post.entity';
+import { Post } from '../entities/post.entity';
 
 @Component()
 export class PostService {

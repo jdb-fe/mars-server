@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 
-import { ApiController } from './api.controller';
-import { PostService } from '../post/post.service';
+import { ApiController } from '../controllers/api.controller';
+import { PostService } from '../services/post.service';
 
 @Module({
     components: [PostService],

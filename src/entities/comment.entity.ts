@@ -1,13 +1,13 @@
 import { Entity, Column, ManyToOne } from 'typeorm';
 
-import { Base } from '../common/base.entity';
+import { Base } from './base';
 
 @Entity()
 export class Comment extends Base {
     // 评论内容
     @Column('text')
     content: string;
-    
+
     // 文章
     @Column('int')
     postId: number
