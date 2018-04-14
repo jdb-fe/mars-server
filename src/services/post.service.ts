@@ -7,21 +7,25 @@ import { Post } from '../entities/post.entity';
 export class PostService {
     constructor(
         @InjectRepository(Post)
-        private readonly postRepository: Repository<Post>,
+        private readonly repository: Repository<Post>,
     ) { }
 
     findByPage(page = 1, size = 10): Promise<Post[]> {
-        return this.postRepository.find({
+        return this.repository.find({
             skip: page * size,
             take: size
         });
     }
 
     findById(id: number) {
-        return this.postRepository.findOneById(id);
+        return this.repository.findOneById(id);
     }
 
     count(options?: FindManyOptions<Post>): Promise<number> {
-        return this.postRepository.count(options);
+        return this.repository.count(options);
+    }
+
+    findByUrl(url: string) {
+        return this.repository.findOne({ url: url });
     }
 }

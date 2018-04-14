@@ -23,16 +23,33 @@ export class Post extends Base {
     @IsUrl()
     thumb: string;
 
+    // 原文地址
+    @Column({
+        unique: true
+    })
+    @IsUrl()
+    url: string;
+
     // 内容
     @Column('text')
-    content: string;
+    html: string;
+
+    // markdown内容
+    @Column('text')
+    markdown: string;
 
     // 查看数量
-    @Column('int')
+    @Column({
+        type: 'int',
+        default: 0
+    })
     views: number;
 
     // 状态
-    @Column()
+    @Column({
+        type: 'int',
+        default: 1
+    })
     status: number;
 
     // 标签
