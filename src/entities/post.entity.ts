@@ -1,8 +1,10 @@
-import { Entity, Column, OneToMany, JoinColumn } from 'typeorm';
+import { Entity, Column, OneToMany, JoinColumn, BeforeInsert, BeforeUpdate } from 'typeorm';
 import { IsUrl } from 'class-validator';
 
 import { Base } from './base';
 import { Tag } from './tag.entity';
+
+import { html2md } from '../utils/utils';
 
 @Entity({
     orderBy: {
@@ -26,10 +28,7 @@ export class Post extends Base {
     thumb: string;
 
     // 原文地址
-    @Column({
-        length: 150,
-        unique: true
-    })
+    @Column()
     @IsUrl()
     url: string;
 
@@ -63,4 +62,11 @@ export class Post extends Base {
     })
     @JoinColumn()
     tags: Tag[]
+
+    @BeforeInsert()
+    toMarkdown() {
+        if (this.html) {
+            this.markdown = html2md(this.html);
+        }
+    }
 }

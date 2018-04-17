@@ -1,7 +1,7 @@
 import { parse } from 'url';
 import { Component } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, FindManyOptions } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Rule } from '../entities/rule.entity';
 
 export interface IRule {

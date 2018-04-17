@@ -11,7 +11,7 @@ import { AppModule } from './modules/app.module';
     app.use(express.static(path.join(__dirname, 'public')));
     app.set('views', __dirname + '/views');
     app.set('view engine', 'pug');
-
+    app.disable('x-powered-by');
     app.useGlobalPipes(new ValidationPipe());
     await app.listen(3000);
 })();
