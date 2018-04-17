@@ -11,7 +11,9 @@ import { Tag } from './tag.entity';
 })
 export class Post extends Base {
     // 标题
-    @Column({ length: 100 })
+    @Column({
+        length: 100
+    })
     title: string;
 
     // 描述
@@ -25,6 +27,7 @@ export class Post extends Base {
 
     // 原文地址
     @Column({
+        length: 150,
         unique: true
     })
     @IsUrl()

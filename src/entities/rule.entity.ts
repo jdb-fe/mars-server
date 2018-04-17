@@ -3,12 +3,13 @@ import { IsFQDN } from 'class-validator';
 
 import { Base } from './base';
 
+@Entity()
 export class Rule extends Base {
     // 域名
     @Column()
     @IsFQDN()
     host: string;
-    
+
     // 路径
     @Column()
     path: string;

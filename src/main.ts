@@ -1,9 +1,9 @@
 import * as express from 'express';
 import * as path from 'path';
 import { NestFactory } from '@nestjs/core';
+import { ValidationPipe } from '@nestjs/common'
 
 import { AppModule } from './modules/app.module';
-import { ValidationPipe } from './pipes/validation.pipe';
 
 (async () => {
     const app = await NestFactory.create(AppModule);
