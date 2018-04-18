@@ -28,14 +28,26 @@ export class ParserService {
         // await page.waitFor(5000);
         await page.evaluate(fs.readFileSync(this.injectjs, 'utf8'));
         await page.evaluate(() => {
+            /**
+             * @desc 修复图片链接
+             */
+            $('img').each(function () {
+                let $this = $(this);
+                let src = this.src;
+                if ($this.data('src')) {
+                    src = $this.data('src');
+                } else if ($this.data('actualsrc')) {
+                    src = $this.data('actualsrc');
+                }
+                $this.attr('src', src);
+            })
             ['href', 'src'].forEach(attr => {
                 $(`[${attr}]`).each(function() {
                     $(this).attr(attr, this[attr]);
                 });
             });
             window.__findImage = function() {
-                return window
-                    .$('img')
+                return $('img')
                     .filter(function() {
                         return $(this).width() >= 50 && $(this).height() >= 50;
                     })
