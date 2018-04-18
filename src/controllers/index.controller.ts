@@ -1,4 +1,4 @@
-import { Controller, Get, Res } from '@nestjs/common';
+import { Controller, Get, Res, Post } from '@nestjs/common';
 
 @Controller()
 export class IndexController {
@@ -9,5 +9,15 @@ export class IndexController {
     @Get()
     root(@Res() res) {
         res.render('index', { message: 'Hello world!' });
+    }
+
+    @Get('/rule')
+    postRule(@Res() res) {
+        res.render('rule');
+    }
+
+    @Post('rule')
+    addRule(@Res() res) {
+        res.render('rule');
     }
 }

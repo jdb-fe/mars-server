@@ -1,0 +1,71 @@
+doctype html
+head
+    title 添加抓取规则
+body
+    h1 添加文章抓取规则
+    form(
+        action='/rule/'
+        method='POST'
+    )
+        label(
+            for='host'
+        ) Host
+        input(
+            type='text'
+            name='host'
+            id='host'
+            placeholder='请输入域名（不带www），如：noonme.com'
+            required
+        )
+        label(
+            for='path'
+        ) Path
+        input(
+            type='text'
+            name='path'
+            id='path'
+            placeholder='请输入解析匹配路径正则，如：^/post/，可为空'
+        )
+        label(
+            for='title'
+        ) 标题
+        input(
+            type='text'
+            name='title'
+            id='title'
+            placeholder="请输入标题解析规则（jquery语法），如：$('h1').text()"
+        )
+        label(
+            for='thumb'
+        ) 图片
+        input(
+            type='text'
+            name='thumb'
+            id='thumb'
+            placeholder="请输入图片解析规则，如：$('.content img').eq(0).attr('src')"
+        )
+        label(
+            for='html'
+        ) 内容
+        input(
+            type='text'
+            name='html'
+            id='html'
+            placeholder="请输入内容解析规则，如：$('.content').html()"
+            required
+        )
+        label(
+            for='description'
+        ) 描述
+        input(
+            type='text'
+            name='description'
+            id='description'
+            placeholder='请输入描述解析规则，为空则取文章前256个字'
+        )
+        input(
+            type='submit'
+            value='添加'
+        )
+
+

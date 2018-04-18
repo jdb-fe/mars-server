@@ -17,7 +17,7 @@ export class ParserService {
     }
     private injectjs = path.join(__dirname, '..', 'utils', 'jquery-3.3.1.min.js');
     private browser: Browser
-    private async puppeteer(url: string, inject: EvaluateFn) {
+    private async puppeteer(url: string, inject: EvaluateFn): Promise<IPost> {
         if (!this.browser) {
             this.browser = await puppeteer.launch();
         }

@@ -2,10 +2,10 @@ import { Entity, Column, ManyToOne } from 'typeorm';
 import { IsUrl } from 'class-validator';
 
 import { Base } from './base';
-import { Post } from './post.entity';
+import { PostEntity } from './post.entity';
 
 @Entity()
-export class Tag extends Base {
+export class TagEntity extends Base {
     // 名称
     @Column({ length: 100 })
     name: string;
@@ -20,6 +20,6 @@ export class Tag extends Base {
     description: string;
 
     // 文章
-    @ManyToOne(type => Post, post => post.tags)
-    posts: Post[]
+    @ManyToOne(type => PostEntity, post => post.tags)
+    posts: PostEntity[]
 }

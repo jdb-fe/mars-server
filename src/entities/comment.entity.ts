@@ -3,7 +3,7 @@ import { Entity, Column, ManyToOne } from 'typeorm';
 import { Base } from './base';
 
 @Entity()
-export class Comment extends Base {
+export class CommentEntity extends Base {
     // 评论内容
     @Column('text')
     content: string;

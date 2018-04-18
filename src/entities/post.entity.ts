@@ -2,7 +2,7 @@ import { Entity, Column, OneToMany, JoinColumn, BeforeInsert, BeforeUpdate } fro
 import { IsUrl } from 'class-validator';
 
 import { Base } from './base';
-import { Tag } from './tag.entity';
+import { TagEntity } from './tag.entity';
 
 import { html2md } from '../utils/utils';
 
@@ -11,7 +11,7 @@ import { html2md } from '../utils/utils';
         id: 'DESC'
     }
 })
-export class Post extends Base {
+export class PostEntity extends Base {
     // 标题
     @Column({
         length: 100
@@ -55,13 +55,13 @@ export class Post extends Base {
     status: number;
 
     // 标签
-    @OneToMany(type => Tag, tag => tag.posts, {
+    @OneToMany(type => TagEntity, tag => tag.posts, {
         eager: true,
         cascadeInsert: true,
         cascadeUpdate: true
     })
     @JoinColumn()
-    tags: Tag[]
+    tags: TagEntity[]
 
     @BeforeInsert()
     toMarkdown() {

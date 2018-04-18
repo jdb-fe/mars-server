@@ -4,7 +4,7 @@ import { IsFQDN } from 'class-validator';
 import { Base } from './base';
 
 @Entity()
-export class Rule extends Base {
+export class RuleEntity extends Base {
     // 域名
     @Column()
     @IsFQDN()
