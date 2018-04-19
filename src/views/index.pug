@@ -1,5 +1,19 @@
-doctype html
-head
-    title 测试页面
-body
-    p hello world
+extends layout.pug
+
+block vars
+  - var title = "首页"
+
+block content
+    div.page-header
+        h1.page-title 文章列表
+    div.row.row-cards.row-deck
+        each post in posts
+            div.col-lg-4
+                div.card
+                    if post.thumb
+                        a(href=post.url target="_blank" rel="noopener")
+                            img(class="card-img-top" src=post.thumb alt=post.title)
+                    div.card-body.d-flex.flex-column
+                        h4
+                            a(href=post.url target="_blank" rel="noopener") #{post.title}
+                        div.text-muted #{post.description}

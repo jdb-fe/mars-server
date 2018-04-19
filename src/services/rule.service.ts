@@ -2,7 +2,7 @@ import { parse } from 'url';
 import { Component } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { RuleEntity } from '../entities/rule.entity';
+import { Rule } from '../entities/rule.entity';
 
 export interface IRule {
     host: string;
@@ -16,21 +16,21 @@ export interface IRule {
 @Component()
 export class RuleService {
     constructor(
-        @InjectRepository(RuleEntity)
-        private readonly repository: Repository<RuleEntity>,
+        @InjectRepository(Rule)
+        private readonly repository: Repository<Rule>,
     ) { }
 
-    insert(data: IRule): Promise<RuleEntity> {
-        const rule = new RuleEntity();
+    insert(data: IRule): Promise<Rule> {
+        const rule = new Rule();
         Object.assign(rule, data);
         return this.repository.save(rule);
     }
 
-    findById(id: number): Promise<RuleEntity> {
+    findById(id: number): Promise<Rule> {
         return this.repository.findOneById(id);
     }
 
-    async findByUrl(link: string): Promise<RuleEntity> {
+    async findByUrl(link: string): Promise<Rule> {
         const parsed = parse(link);
         const rules = await this.repository.find({ host: parsed.host });
         const findRule = rules.find(rule => {
@@ -41,7 +41,7 @@ export class RuleService {
         return findRule || rules[0];
     }
 
-    async updateById(id: number, data: Object): Promise<RuleEntity> {
+    async updateById(id: number, data: Object): Promise<Rule> {
         const rule = await this.findById(id);
         Object.assign(rule, data);
         return this.repository.save(rule);

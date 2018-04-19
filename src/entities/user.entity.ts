@@ -4,7 +4,7 @@ import { IsEmail, IsUrl } from 'class-validator';
 import { Base } from './base';
 
 @Entity()
-export class UserEntity extends Base {
+export class User extends Base {
     // 用户头像
     @Column()
     @IsUrl()

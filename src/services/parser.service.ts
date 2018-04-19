@@ -28,6 +28,7 @@ export class ParserService {
         // await page.waitFor(5000);
         await page.evaluate(fs.readFileSync(this.injectjs, 'utf8'));
         await page.evaluate(() => {
+            let $ = (<any>window).jQuery;
             /**
              * @desc 修复图片链接
              */
@@ -40,13 +41,13 @@ export class ParserService {
                     src = $this.data('actualsrc');
                 }
                 $this.attr('src', src);
-            })
+            });
             ['href', 'src'].forEach(attr => {
                 $(`[${attr}]`).each(function() {
                     $(this).attr(attr, this[attr]);
                 });
             });
-            window.__findImage = function() {
+            (<any>window).__findImage = function() {
                 return $('img')
                     .filter(function() {
                         return $(this).width() >= 50 && $(this).height() >= 50;
@@ -90,9 +91,10 @@ export class ParserService {
     }
     data(url: string): Promise<IPost> {
         return this.puppeteer(url, () => {
+            let $ = (<any>window).jQuery;
             return {
                 title: $('title').text().trim(),
-                thumb: __findImage(),
+                thumb: (<any>window).__findImage(),
                 description: $('[name=description]').attr('content').trim(),
                 html: $('body').html()
             }

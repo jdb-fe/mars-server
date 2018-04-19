@@ -1,71 +1,49 @@
-doctype html
-head
-    title 添加抓取规则
-body
-    h1 添加文章抓取规则
-    form(
-        action='/rule/'
-        method='POST'
-    )
-        label(
-            for='host'
-        ) Host
-        input(
-            type='text'
-            name='host'
-            id='host'
-            placeholder='请输入域名（不带www），如：noonme.com'
-            required
-        )
-        label(
-            for='path'
-        ) Path
-        input(
-            type='text'
-            name='path'
-            id='path'
-            placeholder='请输入解析匹配路径正则，如：^/post/，可为空'
-        )
-        label(
-            for='title'
-        ) 标题
-        input(
-            type='text'
-            name='title'
-            id='title'
-            placeholder="请输入标题解析规则（jquery语法），如：$('h1').text()"
-        )
-        label(
-            for='thumb'
-        ) 图片
-        input(
-            type='text'
-            name='thumb'
-            id='thumb'
-            placeholder="请输入图片解析规则，如：$('.content img').eq(0).attr('src')"
-        )
-        label(
-            for='html'
-        ) 内容
-        input(
-            type='text'
-            name='html'
-            id='html'
-            placeholder="请输入内容解析规则，如：$('.content').html()"
-            required
-        )
-        label(
-            for='description'
-        ) 描述
-        input(
-            type='text'
-            name='description'
-            id='description'
-            placeholder='请输入描述解析规则，为空则取文章前256个字'
-        )
-        input(
-            type='submit'
-            value='添加'
-        )
+extends layout.pug
+
+block vars
+  - var title = "添加抓取规则"
+
+block content
+    div.row
+        div.col-12
+            form(class="card" action="/rule/" method="POST")
+                div.card-header
+                    h3.card-title 添加文章抓取规则
+                div.card-body
+                    div.row
+                        div.col-12
+                            if message
+                                div(class="alert alert-icon alert-success alert-dismissible" role="alert")
+                                    i(class="fe fe-check mr-2" aria-hidden="true")
+                                    button(class="close" type="button" data-dismiss="alert")
+                                    |
+                                    |
+                                    #{message}
+                            div.form-group
+                                label(class="form-label" for="host") Host
+                                input(class="form-control" type="text" name="host" id="host" placeholder="请输入域名（不带www），如：noonme.com" required)
+
+                            div.form-group
+                                label(class="form-label" for="path") Path
+                                input(class="form-control" type="text" name="path" id="path" placeholder="请输入解析匹配路径正则，如：^/post/，可为空")
+
+                            div.form-group
+                                label(class="form-label" for="title") 标题
+                                input(class="form-control" type="text" name="title" id="title" placeholder="请输入标题解析规则（jquery语法），如：$('h1').text()")
+
+                            div.form-group
+                                label(class="form-label" for="thumb") 图片
+                                input(class="form-control" type="text" name="thumb" id="thumb" placeholder="请输入图片解析规则，如：$('.content img').eq(0).attr('src')")
+
+                            div.form-group
+                                label(class="form-label" for="html") 内容
+                                input(class="form-control" type="text" name="html" id="html" placeholder="请输入内容解析规则，如：$('.content').html()" required)
+
+                            div.form-group
+                                label(class="form-label" for="description") 描述
+                                input(class="form-control" type="text" name="description" id="description" placeholder="请输入描述解析规则，为空则取文章前256个字")
+
+                div.card-footer
+                    button(class="btn btn-primary" type="submit") 添加规则
 
 

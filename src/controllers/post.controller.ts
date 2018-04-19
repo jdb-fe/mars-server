@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Res, ParseIntPipe } from '@nestjs/common';
 
 import { PostService } from '../services/post.service';
-import { PostEntity } from '../entities/post.entity';
+import { Post } from '../entities/post.entity';
 
 @Controller('post')
 export class PostController {
@@ -10,12 +10,12 @@ export class PostController {
     }
 
     @Get()
-    findAll(): Promise<PostEntity[]> {
+    findAll(): Promise<Post[]> {
         return this.postService.findByPage();
     }
 
     @Get(':id')
-    findById(@Param('id', new ParseIntPipe()) id): Promise<PostEntity> {
+    findById(@Param('id', new ParseIntPipe()) id): Promise<Post> {
         return this.postService.findById(id);
     }
 }

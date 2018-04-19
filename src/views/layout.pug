@@ -1,0 +1,15 @@
+html
+    block vars
+    head
+        title #{title}
+        block head
+            link(rel="stylesheet", href="/css/dashboard.css")
+            script(src="/js/require.min.js")
+            script.
+                requirejs.config({
+                    baseUrl: '/'
+                });
+            script(src="/js/dashboard.js")
+body
+    div.container
+        block content

@@ -1,7 +1,7 @@
 import { Component } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindManyOptions } from 'typeorm';
-import { PostEntity } from '../entities/post.entity';
+import { Post } from '../entities/post.entity';
 
 export interface IPost {
     title: string;
@@ -14,11 +14,11 @@ export interface IPost {
 @Component()
 export class PostService {
     constructor(
-        @InjectRepository(PostEntity)
-        private readonly repository: Repository<PostEntity>,
+        @InjectRepository(Post)
+        private readonly repository: Repository<Post>,
     ) { }
 
-    async insert(data: IPost): Promise<PostEntity> {
+    async insert(data: IPost): Promise<Post> {
         /**
          * @desc 检测是否已经存在url
          */
@@ -28,27 +28,27 @@ export class PostService {
                 return post;
             }
         }
-        let post = new PostEntity();
+        let post = new Post();
         Object.assign(post, data);
         return this.repository.save(post);
     }
 
-    findByPage(page = 1, size = 10): Promise<PostEntity[]> {
+    findByPage(page = 1, size = 10): Promise<Post[]> {
         return this.repository.find({
-            skip: page * size,
+            skip: (page - 1) * size,
             take: size
         });
     }
 
-    findById(id: number): Promise<PostEntity> {
+    findById(id: number): Promise<Post> {
         return this.repository.findOneById(id);
     }
 
-    count(options?: FindManyOptions<PostEntity>): Promise<number> {
+    count(options?: FindManyOptions<Post>): Promise<number> {
         return this.repository.count(options);
     }
 
-    findByUrl(url: string): Promise<PostEntity> {
+    findByUrl(url: string): Promise<Post> {
         return this.repository.findOne({ url: url });
     }
 }

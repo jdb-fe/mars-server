@@ -1,7 +1,7 @@
 import { Component } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ConfigEntity } from '../entities/config.entity';
+import { Config } from '../entities/config.entity';
 
 export interface IConfig {
     mail?: {
@@ -16,20 +16,20 @@ export interface IConfig {
 @Component()
 export class ConfigService {
     constructor(
-        @InjectRepository(ConfigEntity)
-        private readonly repository: Repository<ConfigEntity>,
+        @InjectRepository(Config)
+        private readonly repository: Repository<Config>,
     ) {}
 
-    get(): Promise<ConfigEntity> {
+    get(): Promise<Config> {
         return this.repository.findOne({
             cache: 60000,
         });
     }
 
-    async update(data: IConfig): Promise<ConfigEntity> {
+    async update(data: IConfig): Promise<Config> {
         let config = await this.get();
         if (!config) {
-            config = new ConfigEntity();
+            config = new Config();
         }
         Object.assign(config, data);
         return this.repository.save(config);

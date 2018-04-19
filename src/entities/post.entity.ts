@@ -1,8 +1,8 @@
 import { Entity, Column, OneToMany, JoinColumn, BeforeInsert, BeforeUpdate } from 'typeorm';
-import { IsUrl } from 'class-validator';
+import { IsUrl, IsNotEmpty } from 'class-validator';
 
 import { Base } from './base';
-import { TagEntity } from './tag.entity';
+import { Tag } from './tag.entity';
 
 import { html2md } from '../utils/utils';
 
@@ -11,11 +11,12 @@ import { html2md } from '../utils/utils';
         id: 'DESC'
     }
 })
-export class PostEntity extends Base {
+export class Post extends Base {
     // 标题
     @Column({
         length: 100
     })
+    @IsNotEmpty()
     title: string;
 
     // 描述
@@ -34,6 +35,7 @@ export class PostEntity extends Base {
 
     // 内容
     @Column('text')
+    @IsNotEmpty()
     html: string;
 
     // markdown内容
@@ -55,13 +57,13 @@ export class PostEntity extends Base {
     status: number;
 
     // 标签
-    @OneToMany(type => TagEntity, tag => tag.posts, {
+    @OneToMany(type => Tag, tag => tag.posts, {
         eager: true,
         cascadeInsert: true,
         cascadeUpdate: true
     })
     @JoinColumn()
-    tags: TagEntity[]
+    tags: Tag[]
 
     @BeforeInsert()
     toMarkdown() {
