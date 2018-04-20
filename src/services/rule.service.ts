@@ -27,7 +27,7 @@ export class RuleService {
     }
 
     findById(id: number): Promise<Rule> {
-        return this.repository.findOneById(id);
+        return this.repository.findOne(id);
     }
 
     async findByUrl(link: string): Promise<Rule> {

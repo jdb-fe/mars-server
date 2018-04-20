@@ -41,7 +41,7 @@ export class PostService {
     }
 
     findById(id: number): Promise<Post> {
-        return this.repository.findOneById(id);
+        return this.repository.findOne(id);
     }
 
     count(options?: FindManyOptions<Post>): Promise<number> {
