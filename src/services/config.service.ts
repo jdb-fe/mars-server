@@ -9,7 +9,7 @@ export interface IConfig {
         pass: string;
         host: string;
     };
-    subscriber?: [string];
+    subscriber?: string[];
     mercury?: string;
 }
 

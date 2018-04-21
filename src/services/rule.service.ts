@@ -1,7 +1,7 @@
 import { parse } from 'url';
 import { Component } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { Rule } from '../entities/rule.entity';
 
 export interface IRule {
@@ -41,9 +41,7 @@ export class RuleService {
         return findRule || rules[0];
     }
 
-    async updateById(id: number, data: Object): Promise<Rule> {
-        const rule = await this.findById(id);
-        Object.assign(rule, data);
-        return this.repository.save(rule);
+    updateById(id: number, data: Object): Promise<UpdateResult> {
+        return this.repository.update(id, data);
     }
 }

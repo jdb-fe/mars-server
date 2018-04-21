@@ -51,4 +51,15 @@ export class PostService {
     findByUrl(url: string): Promise<Post> {
         return this.repository.findOne({ url: url });
     }
+
+    /**
+     * @desc 获取未推送文章
+     */
+    async findNonpush(): Promise<Post[]> {
+        let posts = await this.repository.find({ push: 0 });
+        if (posts.length) {
+            let update = await this.repository.update(posts.map(post => post.id), { push: 1 });
+        }
+        return posts;
+    }
 }

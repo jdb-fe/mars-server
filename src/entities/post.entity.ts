@@ -29,7 +29,9 @@ export class Post extends Base {
     thumb: string;
 
     // 原文地址
-    @Column()
+    @Column({
+        length: 150
+    })
     @IsUrl()
     url: string;
 
@@ -51,16 +53,22 @@ export class Post extends Base {
 
     // 状态
     @Column({
-        type: 'int',
+        type: 'tinyint',
         default: 1
     })
     status: number;
 
+    // 是否推送
+    @Column({
+        type: 'tinyint',
+        default: 0
+    })
+    push: number;
+
     // 标签
     @OneToMany(type => Tag, tag => tag.posts, {
         eager: true,
-        cascadeInsert: true,
-        cascadeUpdate: true
+        cascade: true
     })
     @JoinColumn()
     tags: Tag[]

@@ -19,7 +19,32 @@ export const validator: Validator = new Validator();
  * 将import对象转成数组
  * @param importObject
  */
-export function importToArray<Key extends string, PropType>(importObject: Record<Key, PropType>,): PropType[] {
+export function importToArray<Key extends string, PropType>(importObject: Record<Key, PropType>, ): PropType[] {
     const keys = Object.getOwnPropertyNames(importObject);
     return keys.filter(key => key.indexOf('__') !== 0).map(key => importObject[key]);
+}
+
+import * as nodemailer from 'nodemailer';
+import { IConfig } from '../services/config.service';
+export function sendMail(conf: IConfig, html: string, subject = 'Mars Daily') {
+    return new Promise((resolve, reject) => {
+        let transporter = nodemailer.createTransport({
+            host: conf.mail.host,
+            secureConnection: true, // use SSL
+            port: 465,
+            secure: true, // secure:true for port 465, secure:false for port 587
+            auth: {
+                user: conf.mail.user,
+                pass: conf.mail.pass
+            }
+        });
+        transporter.sendMail({
+            from: `"Mars" <${conf.mail.user}>`,
+            to: conf.subscriber.join(','),
+            subject: subject,
+            html: html
+        }, (error, info) => {
+            error ? reject(error) : resolve(info);
+        });
+    });
 }
