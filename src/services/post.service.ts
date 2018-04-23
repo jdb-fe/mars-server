@@ -33,7 +33,7 @@ export class PostService {
         return this.repository.save(post);
     }
 
-    findByPage(page = 1, size = 10): Promise<Post[]> {
+    findByPage(page = 1, size = 15): Promise<Post[]> {
         return this.repository.find({
             skip: (page - 1) * size,
             take: size

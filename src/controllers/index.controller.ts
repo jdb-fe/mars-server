@@ -1,7 +1,8 @@
-import { Controller, Get, Res, Post, Body } from '@nestjs/common';
+import { Controller, Get, Res, Post, Body, Query } from '@nestjs/common';
 
 import { PostService } from '../services/post.service';
 import { IRule, RuleService } from '../services/rule.service';
+import { IntPipe } from '../pipes/int.pipe';
 
 @Controller()
 export class IndexController {
@@ -11,8 +12,11 @@ export class IndexController {
     ) {}
 
     @Get()
-    async root(@Res() res) {
-        const posts = await this.postService.findByPage();
+    async root(@Res() res, @Query('page', new IntPipe(false)) page) {
+        if (page < 1) {
+            page = 1;
+        }
+        const posts = await this.postService.findByPage(page);
         res.render('index', { posts: posts});
     }
 

@@ -25,7 +25,6 @@ export class WechatController {
                     // 是否有规则
                     let parseRule = await this.ruleService.findByUrl(input);
                     try {
-                        console.log(parseRule);
                         if (parseRule) {
                             output = await this.parserService.url(input, parseRule);
                         } else {

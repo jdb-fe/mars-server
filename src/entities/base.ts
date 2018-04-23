@@ -1,4 +1,6 @@
-import { Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, BeforeInsert, BeforeUpdate } from 'typeorm';
+import { validate } from 'class-validator';
+import { BadRequestException } from '@nestjs/common'
 
 export abstract class Base {
     @PrimaryGeneratedColumn()
@@ -9,4 +11,13 @@ export abstract class Base {
 
     @UpdateDateColumn()
     updateAt: Date;
+
+    @BeforeInsert()
+    @BeforeUpdate()
+    async validate() {
+        const errors = await validate(this);
+        if (errors.length > 0) {
+            throw new BadRequestException(errors);
+        }
+    }
 }

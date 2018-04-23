@@ -31,7 +31,7 @@ import moment from 'moment';
 export class AppModule implements OnModuleInit {
     constructor(
         private readonly postService: PostService,
-        private readonly configService: ConfigService,
+        private readonly configService: ConfigService
     ) { }
     onModuleInit() {
         const compileFunc = pug.compileFile(path.join(__dirname, '..', 'views', 'daily.pug'));

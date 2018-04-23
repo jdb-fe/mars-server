@@ -9,12 +9,12 @@ export class ApiController {
 
     }
 
-    @Get()
+    @Get('post')
     findAll(): Promise<Post[]> {
         return this.postService.findByPage();
     }
 
-    @Get(':id')
+    @Get('post/:id')
     findById(@Param() params): Promise<Post> {
         return this.postService.findById(params.id);
     }
