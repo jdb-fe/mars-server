@@ -24,7 +24,7 @@ export class ParserService {
         const page = await this.browser.newPage();
         console.log(`start open url: ${url}`);
         await page.goto(url, {
-            timeout: 10000
+            timeout: 0
         });
         console.log(`url opened: ${url}`);
         // await page.waitFor(5000);
