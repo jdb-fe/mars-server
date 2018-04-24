@@ -58,6 +58,8 @@ export class ParserService {
         });
 
         const ret = await page.evaluate(inject);
+        await this.browser.close();
+        this.browser = null;
         return ret;
     }
     /**
