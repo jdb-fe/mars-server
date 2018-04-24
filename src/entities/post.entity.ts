@@ -36,12 +36,12 @@ export class Post extends Base {
     url: string;
 
     // 内容
-    @Column('text')
+    @Column('mediumtext')
     @IsNotEmpty()
     html: string;
 
     // markdown内容
-    @Column('text')
+    @Column('mediumtext')
     markdown: string;
 
     // 查看数量
