@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.7
+-- version 4.8.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: 2018-04-24 14:25:21
--- 服务器版本： 5.6.38
--- PHP Version: 7.1.12
+-- Host: localhost
+-- Generation Time: 2018-04-24 22:21:55
+-- 服务器版本： 5.6.40-log
+-- PHP Version: 5.6.35
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -30,10 +32,10 @@ CREATE TABLE `comment` (
   `id` int(11) NOT NULL,
   `createAt` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
   `updateAt` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-  `content` text NOT NULL,
+  `content` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `postId` int(11) NOT NULL,
   `userId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -43,10 +45,10 @@ CREATE TABLE `comment` (
 
 CREATE TABLE `config` (
   `id` int(11) NOT NULL,
-  `subscriber` text NOT NULL,
-  `mail` text NOT NULL,
-  `mercury` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `subscriber` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `mail` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `mercury` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- 转存表中的数据 `config`
@@ -65,16 +67,16 @@ CREATE TABLE `post` (
   `id` int(11) NOT NULL,
   `createAt` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
   `updateAt` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-  `title` varchar(100) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `thumb` varchar(255) NOT NULL,
-  `url` varchar(150) NOT NULL,
-  `html` text NOT NULL,
-  `markdown` text NOT NULL,
+  `title` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `thumb` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `url` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `html` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `markdown` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `views` int(11) NOT NULL DEFAULT '0',
   `status` tinyint(4) NOT NULL DEFAULT '1',
   `push` tinyint(4) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- 转存表中的数据 `post`
@@ -181,13 +183,13 @@ CREATE TABLE `rule` (
   `id` int(11) NOT NULL,
   `createAt` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
   `updateAt` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-  `host` varchar(50) NOT NULL,
-  `path` varchar(100) NOT NULL,
-  `title` varchar(100) NOT NULL,
-  `thumb` varchar(100) NOT NULL,
-  `description` varchar(100) NOT NULL,
-  `html` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `host` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `path` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `thumb` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `html` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- 转存表中的数据 `rule`
@@ -221,11 +223,11 @@ CREATE TABLE `tag` (
   `id` int(11) NOT NULL,
   `createAt` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
   `updateAt` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-  `name` varchar(100) NOT NULL,
-  `thumb` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `thumb` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `postsId` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -237,12 +239,12 @@ CREATE TABLE `user` (
   `id` int(11) NOT NULL,
   `createAt` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
   `updateAt` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-  `avatar` varchar(255) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `loginname` varchar(50) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `avatar` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `loginname` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Indexes for dumped tables
@@ -334,6 +336,7 @@ ALTER TABLE `user`
 --
 ALTER TABLE `tag`
   ADD CONSTRAINT `FK_146246e4decdeee7cc88ee1ecd8` FOREIGN KEY (`postsId`) REFERENCES `post` (`id`);
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

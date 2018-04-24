@@ -10,7 +10,7 @@ export class PostController {
     }
 
     @Get()
-    findAll(): Promise<Post[]> {
+    findAll() {
         return this.postService.findByPage();
     }
 

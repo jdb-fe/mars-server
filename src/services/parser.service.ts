@@ -85,7 +85,7 @@ export class ParserService {
         if (!ret.description) {
             ret.description = striptags(ret.html)
                 .replace(/\s/g, '')
-                .substr(0, 256);
+                .substr(0, 250);
         }
         return ret;
     }

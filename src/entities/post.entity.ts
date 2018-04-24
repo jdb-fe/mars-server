@@ -20,7 +20,7 @@ export class Post extends Base {
     title: string;
 
     // 描述
-    @Column('tinytext')
+    @Column()
     description: string;
 
     // 缩略图
