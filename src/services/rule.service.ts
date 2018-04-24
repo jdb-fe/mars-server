@@ -20,17 +20,17 @@ export class RuleService {
         private readonly repository: Repository<Rule>,
     ) { }
 
-    insert(data: IRule): Promise<Rule> {
+    insert(data: IRule) {
         const rule = new Rule();
         Object.assign(rule, data);
         return this.repository.save(rule);
     }
 
-    findById(id: number): Promise<Rule> {
+    findById(id: number) {
         return this.repository.findOne(id);
     }
 
-    async findByUrl(link: string): Promise<Rule> {
+    async findByUrl(link: string) {
         const parsed = parse(link);
         const rules = await this.repository.find({ host: parsed.host });
         const findRule = rules.find(rule => {

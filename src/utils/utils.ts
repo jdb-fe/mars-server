@@ -25,7 +25,14 @@ export function importToArray<Key extends string, PropType>(importObject: Record
 }
 
 import * as nodemailer from 'nodemailer';
-import { IConfig } from '../services/config.service';
+interface IConfig {
+    mail: {
+        user: string;
+        pass: string;
+        host: string;
+    }
+    subscriber: string[]
+};
 export function sendMail(conf: IConfig, html: string, subject = 'Mars Daily') {
     return new Promise((resolve, reject) => {
         let transporter = nodemailer.createTransport({

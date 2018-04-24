@@ -17,29 +17,29 @@ import * as path from 'path';
 import moment from 'moment';
 
 @Module({
-    imports: [
-        TypeOrmModule.forRoot(),
-        CommonModule,
-        WechatModule
-    ],
-    controllers: [
-        IndexController,
-        PostController,
-        ApiController
-    ]
+    imports: [TypeOrmModule.forRoot(), CommonModule, WechatModule],
+    controllers: [IndexController, PostController, ApiController],
 })
 export class AppModule implements OnModuleInit {
     constructor(
         private readonly postService: PostService,
-        private readonly configService: ConfigService
-    ) { }
+        private readonly configService: ConfigService,
+    ) {}
     onModuleInit() {
-        const compileFunc = pug.compileFile(path.join(__dirname, '..', 'views', 'daily.pug'));
+        const compileFunc = pug.compileFile(
+            path.join(__dirname, '..', 'views', 'daily.pug'),
+        );
         Schedule.scheduleJob({ hour: 10 }, async () => {
             let config = await this.configService.get();
-            let posts = await this.postService.findNonpush();
+            let posts = await this.postService.find({ push: 0 });
             let date = moment().format('YYYY-MM-DD');
-            sendMail(config, compileFunc({ date, posts }));
+            await sendMail(config, compileFunc({ date, posts }));
+            if (posts.length) {
+                // 更新已推送
+                this.postService.update(posts.map(post => post.id), {
+                    push: 1,
+                });
+            }
         });
     }
 }

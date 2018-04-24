@@ -2,7 +2,7 @@
     "type": "mysql",
     "host": "127.0.0.1",
     "username": "news",
-    "password": "news123456",
+    "password": "j8Xq8UgsilLuVghE",
     "database": "news",
     "charset": "utf8mb4_general_ci",
     "entities": ["src/**/**.entity{.ts,.js}"],

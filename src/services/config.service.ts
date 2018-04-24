@@ -1,17 +1,7 @@
 import { Component } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, DeepPartial } from 'typeorm';
 import { Config } from '../entities/config.entity';
-
-export interface IConfig {
-    mail?: {
-        user: string;
-        pass: string;
-        host: string;
-    };
-    subscriber?: string[];
-    mercury?: string;
-}
 
 @Component()
 export class ConfigService {
@@ -20,13 +10,13 @@ export class ConfigService {
         private readonly repository: Repository<Config>,
     ) {}
 
-    get(): Promise<Config> {
+    get() {
         return this.repository.findOne({
             cache: 60000,
         });
     }
 
-    async update(data: IConfig): Promise<Config> {
+    async update(data: DeepPartial<Config>) {
         let config = await this.get();
         if (!config) {
             config = new Config();
