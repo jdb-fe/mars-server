@@ -8,6 +8,7 @@
         "start:dev": "nodemon",
         "prestart:prod": "rm -rf dist && tsc",
         "start:prod": "node dist/main.js",
+        "deploy": "pm2 deploy production update",
         "test": "jest",
         "test:cov": "jest --coverage",
         "test:e2e": "jest --config ./test/jest-e2e.json",
