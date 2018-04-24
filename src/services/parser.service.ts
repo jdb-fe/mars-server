@@ -22,9 +22,9 @@ export class ParserService {
             this.browser = await puppeteer.launch({args: ['--no-sandbox']});
         }
         const page = await this.browser.newPage();
-        await page.goto(url);
-
-        await page.goto(url);
+        await page.goto(url, {
+            timeout: 0
+        });
         // await page.waitFor(5000);
         await page.evaluate(fs.readFileSync(this.injectjs, 'utf8'));
         await page.evaluate(() => {
