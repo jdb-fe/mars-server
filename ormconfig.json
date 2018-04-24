@@ -4,7 +4,7 @@
     "username": "news",
     "password": "j8Xq8UgsilLuVghE",
     "database": "news",
-    "charset": "utf8mb4_unicode_ci",
+    "charset": "utf8mb4",
     "entities": ["src/**/**.entity{.ts,.js}"],
     "synchronize": true
 }
