@@ -22,9 +22,11 @@ export class ParserService {
             this.browser = await puppeteer.launch({args: ['--no-sandbox']});
         }
         const page = await this.browser.newPage();
+        console.log(`start open url: ${url}`);
         await page.goto(url, {
             timeout: 0
         });
+        console.log(`url opened: ${url}`);
         // await page.waitFor(5000);
         await page.evaluate(fs.readFileSync(this.injectjs, 'utf8'));
         await page.evaluate(() => {
@@ -58,6 +60,7 @@ export class ParserService {
         });
 
         const ret = await page.evaluate(inject);
+        console.log(`url parsed: ${url}`);
         await this.browser.close();
         this.browser = null;
         return ret;
