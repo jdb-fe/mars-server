@@ -16,8 +16,8 @@ export class IndexController {
         if (page < 1) {
             page = 1;
         }
-        const posts = await this.postService.findByPage(page);
-        res.render('index', { posts: posts});
+        const results = await this.postService.findByPage(page);
+        res.render('index', results);
     }
 
     @Get('rule')

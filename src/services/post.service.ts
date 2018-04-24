@@ -33,11 +33,20 @@ export class PostService {
         return this.repository.save(post);
     }
 
-    findByPage(page = 1, size = 15) {
-        return this.repository.find({
-            skip: (page - 1) * size,
-            take: size
+    async findByPage(page = 1, limit = 15) {
+        const result = await this.repository.findAndCount({
+            skip: (page - 1) * limit,
+            take: limit
         });
+        return {
+            posts: result[0],
+            pages: {
+                page: page,
+                total: result[1],
+                limit: limit,
+                totalPage: Math.ceil(result[1] / limit)
+            }
+        }
     }
 
     findById(id: number) {
