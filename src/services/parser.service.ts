@@ -19,7 +19,7 @@ export class ParserService {
     private browser: Browser
     private async puppeteer(url: string, inject: EvaluateFn): Promise<IPost> {
         if (!this.browser) {
-            this.browser = await puppeteer.launch();
+            this.browser = await puppeteer.launch({args: ['--no-sandbox']});
         }
         const page = await this.browser.newPage();
         await page.goto(url);
