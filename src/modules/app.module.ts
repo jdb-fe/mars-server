@@ -29,7 +29,7 @@ export class AppModule implements OnModuleInit {
         const compileFunc = pug.compileFile(
             path.join(__dirname, '..', 'views', 'daily.pug'),
         );
-        Schedule.scheduleJob({ hour: 10 }, async () => {
+        Schedule.scheduleJob({ hour: 10, minute: 0, second: 0 }, async () => {
             let config = await this.configService.get();
             let posts = await this.postService.find({ push: 0 });
             let date = moment().format('YYYY-MM-DD');
