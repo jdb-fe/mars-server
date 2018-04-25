@@ -121,6 +121,7 @@ export class ParserService {
                 },
             })
             .then(res => res.data);
+        console.log(`mercury parse end: ${mercury}`);
         return {
             title: mercury.title,
             html: mercury.content,

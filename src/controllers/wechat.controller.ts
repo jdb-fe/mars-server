@@ -31,7 +31,7 @@ export class WechatController {
                             output = await this.parserService.mercury(input);
                         }
                     } catch (error) {
-                        console.log(error);
+                        console.log('data parse');
                         output = await this.parserService.data(input);
                     }
                     output.url = input;
