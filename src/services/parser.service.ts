@@ -171,7 +171,7 @@ export class ParserService {
 
             if (!result.description) {
                 if (result.html) {
-                    result.description = striptags(result.html).replace(/\s/g, '').substr(0, 256);
+                    result.description = striptags(result.html).replace(/\s/g, '').substr(0, 250);
                 } else if ($('meta[name="description"]').length) {
                     result.description = $('meta[name="description"]').attr('content');
                 }
