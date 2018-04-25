@@ -119,9 +119,8 @@ export class ParserService {
                 'x-api-key': conf.mercury,
             }
         });
-        console.log(response);
         const mercury = response.data;
-        console.log(`mercury parse end: ${mercury}`);
+        console.log('mercury parse end', mercury);
         return {
             title: mercury.title,
             html: mercury.content,
