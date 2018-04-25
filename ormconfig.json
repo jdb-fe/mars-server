@@ -6,5 +6,5 @@
     "database": "news",
     "charset": "utf8mb4_unicode_ci",
     "entities": ["src/**/**.entity{.ts,.js}"],
-    "synchronize": true
+    "cache": true
 }

@@ -14,7 +14,7 @@ import { ConfigService } from '../services/config.service';
 import { sendMail } from '../utils/utils';
 import * as pug from 'pug';
 import * as path from 'path';
-import moment from 'moment';
+import * as moment from 'moment';
 
 @Module({
     imports: [TypeOrmModule.forRoot(), CommonModule, WechatModule],
