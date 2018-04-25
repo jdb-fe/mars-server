@@ -4,8 +4,10 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as puppeteer from 'puppeteer';
 import { Browser, Page, EvaluateFn } from 'puppeteer';
-import * as striptags from 'striptags';
+import striptags from 'striptags';
 import axios from 'axios';
+import cheerio from 'cheerio';
+import { resolve as URLResolve, URLSearchParams } from 'url';
 
 import { IRule } from './rule.service';
 import { IPost } from './post.service';
@@ -120,5 +122,88 @@ export class ParserService {
             thumb: mercury.lead_image_url,
             description: mercury.excerpt,
         };
+    }
+    /**
+     * 通过 cheerio 解析html抓取内容
+     * @param url 文章链接
+     * @param rule 文章解析规则
+     */
+    async html(url: string, rule: IRule): Promise<IPost> {
+        const response = await axios.get(url);
+        const contentType = response.headers['content-type'];
+        if (contentType.indexOf('text/html') > -1) {
+            let $ = cheerio.load(response.data, {
+                decodeEntities: false
+            });
+
+            // 修复链接
+            ['href', 'src', 'data-src'].forEach((attr) => {
+                $(`[${attr}]`).each(function () {
+                    let $this = $(this);
+                    let val = $this.attr(attr);
+                    if (val) {
+                        $this.attr(attr.replace('data-', ''), URLResolve(url, val));
+                        if ($this.get(0).tagName === 'iframe') {
+                            let urlParams = new URLSearchParams(val);
+                            let width = urlParams.get('width') || '100%';
+                            let height = urlParams.get('height') || 'auto';
+                            $this.attr('style', 'dispaly:block;max-width:100%;');
+                            $this.attr('width', width);
+                            $this.attr('height', height);
+                        }
+                    }
+                });
+            });
+
+            let result:any = {};
+
+            ['title', 'description', 'html', 'thumb'].forEach((key) => {
+                if (!result[key] && rule[key]) {
+                    try {
+                        result[key] = eval(rule[key]);
+                    } catch (error) {}
+                }
+            });
+
+            if (!result.title) {
+                result.title = $('title').text();
+            }
+
+            if (!result.description) {
+                if (result.html) {
+                    result.description = striptags(result.html).replace(/\s/g, '').substr(0, 256);
+                } else if ($('meta[name="description"]').length) {
+                    result.description = $('meta[name="description"]').attr('content');
+                }
+            }
+
+            if (!result.thumb) {
+                $('img').each(function() {
+                    let $this = $(this);
+                    let src = $this.attr('src') || $this.attr('data-src');
+                    if (src) {
+                        result.thumb = URLResolve(url, src);
+                    }
+                });
+            }
+
+            if (!result.html) {
+                if (!$('meta[name="viewport"]').length) {
+                    $('head').append('<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">');
+                }
+                result.html = $.html();
+            }
+
+            // trim
+            for (let k in result) {
+                if (result[k] && typeof result[k] === 'string') {
+                    result[k] = result[k].trim();
+                }
+            }
+
+            return result;
+        } else {
+            throw 'response not html';
+        }
     }
 }

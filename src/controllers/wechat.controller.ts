@@ -7,7 +7,6 @@ import { PostService } from '../services/post.service';
 
 @Controller('wechat')
 export class WechatController {
-    busy = false
     constructor(
         private readonly parserService: ParserService,
         private readonly ruleService: RuleService,
@@ -22,13 +21,12 @@ export class WechatController {
             if (validator.isURL(input) ) {
                 // 是否已经推荐了
                 let output:any = await this.postService.findByUrl(input);
-                if (!output && !this.busy) {
-                    this.busy = true;
+                if (!output) {
                     // 是否有规则
                     let parseRule = await this.ruleService.findByUrl(input);
                     try {
                         if (parseRule) {
-                            output = await this.parserService.url(input, parseRule);
+                            output = await this.parserService.html(input, parseRule);
                         } else {
                             output = await this.parserService.mercury(input);
                         }
@@ -36,18 +34,15 @@ export class WechatController {
                         console.log(error);
                         output = await this.parserService.data(input);
                     }
-                    this.busy = false;
                     output.url = input;
                     await this.postService.insert(output);
                 }
-                if (!this.busy) {
-                    msg = [{
-                        title: output.title,
-                        description: output.description,
-                        picurl: output.thumb,
-                        url: output.url
-                    }];
-                }
+                msg = [{
+                    title: output.title,
+                    description: output.description,
+                    picurl: output.thumb,
+                    url: output.url
+                }];
             }
         }
         res.reply(msg);
