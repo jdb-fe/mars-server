@@ -4,9 +4,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as puppeteer from 'puppeteer';
 import { Browser, Page, EvaluateFn } from 'puppeteer';
-import striptags from 'striptags';
+import * as striptags from 'striptags';
 import axios from 'axios';
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 import { resolve as URLResolve, URLSearchParams } from 'url';
 
 import { IRule } from './rule.service';
