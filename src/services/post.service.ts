@@ -31,7 +31,9 @@ export class PostService {
         console.log(`insert post ${data.url}`);
         let post = new Post();
         Object.assign(post, data);
-        return this.repository.insert(post);
+        let res = await this.repository.insert(post);
+        console.log(`insert end`);
+        return res;
     }
 
     async findByPage(page = 1, limit = 15) {
