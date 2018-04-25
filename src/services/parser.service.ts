@@ -111,16 +111,16 @@ export class ParserService {
     async mercury(url: string): Promise<IPost> {
         const conf = await this.configService.get();
         console.log('mercury parse');
-        const mercury = await axios
-            .get('https://mercury.postlight.com/parser', {
-                params: {
-                    url: url
-                },
-                headers: {
-                    'x-api-key': conf.mercury,
-                },
-            })
-            .then(res => res.data);
+        const response = await axios.get('https://mercury.postlight.com/parser', {
+            params: {
+                url: url
+            },
+            headers: {
+                'x-api-key': conf.mercury,
+            }
+        });
+        console.log(response);
+        const mercury = response.data;
         console.log(`mercury parse end: ${mercury}`);
         return {
             title: mercury.title,
