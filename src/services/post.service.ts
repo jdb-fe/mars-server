@@ -28,6 +28,7 @@ export class PostService {
                 return post;
             }
         }
+        console.log(`insr post ${data.url}`);
         let post = new Post();
         Object.assign(post, data);
         return this.repository.save(post);
