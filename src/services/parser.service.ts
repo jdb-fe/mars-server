@@ -110,6 +110,7 @@ export class ParserService {
     }
     async mercury(url: string): Promise<IPost> {
         const conf = await this.configService.get();
+        console.log('mercury parse');
         const mercury = await axios
             .get('https://mercury.postlight.com/parser', {
                 params: {
