@@ -96,21 +96,25 @@ export class ParserService {
         }
         return ret;
     }
-    data(url: string): Promise<IPost> {
-        return this.puppeteer(url, () => {
-            let $ = (<any>window).jQuery;
-            return {
-                title: $('title').text().trim(),
-                thumb: (<any>window).__findImage(),
-                description: $('[name=description]').attr('content').trim(),
-                html: $('body').html()
-            }
-        });
+    async data(url: string): Promise<IPost> {
+        const $ = await this.htmlParse(url);
+
+        let result: IPost = {
+            title: $('title').text().trim(),
+            thumb: $('img[src]').eq(0).attr('src'),
+            description: $('[name=description]').attr('content').trim(),
+            html: $('body').html()
+        };
+
+        return result;
     }
     async mercury(url: string): Promise<IPost> {
         const conf = await this.configService.get();
         const mercury = await axios
-            .get(`https://mercury.postlight.com/parser?url=${url}`, {
+            .get('https://mercury.postlight.com/parser', {
+                params: {
+                    url: url
+                },
                 headers: {
                     'x-api-key': conf.mercury,
                 },
@@ -123,12 +127,7 @@ export class ParserService {
             description: mercury.excerpt,
         };
     }
-    /**
-     * 通过 cheerio 解析html抓取内容
-     * @param url 文章链接
-     * @param rule 文章解析规则
-     */
-    async html(url: string, rule: IRule): Promise<IPost> {
+    private async htmlParse(url: string): Promise<CheerioStatic> {
         const response = await axios.get(url);
         const contentType = response.headers['content-type'];
         if (contentType.indexOf('text/html') > -1) {
@@ -136,7 +135,7 @@ export class ParserService {
                 decodeEntities: false
             });
 
-            // 修复链接
+            // 修复链接地址
             ['href', 'src', 'data-src'].forEach((attr) => {
                 $(`[${attr}]`).each(function () {
                     let $this = $(this);
@@ -155,55 +154,54 @@ export class ParserService {
                 });
             });
 
-            let result:any = {};
-
-            ['title', 'description', 'html', 'thumb'].forEach((key) => {
-                if (!result[key] && rule[key]) {
-                    try {
-                        result[key] = eval(rule[key]);
-                    } catch (error) {}
-                }
-            });
-
-            if (!result.title) {
-                result.title = $('title').text();
-            }
-
-            if (!result.description) {
-                if (result.html) {
-                    result.description = striptags(result.html).replace(/\s/g, '').substr(0, 250);
-                } else if ($('meta[name="description"]').length) {
-                    result.description = $('meta[name="description"]').attr('content');
-                }
-            }
-
-            if (!result.thumb) {
-                $('img').each(function() {
-                    let $this = $(this);
-                    let src = $this.attr('src') || $this.attr('data-src');
-                    if (src) {
-                        result.thumb = URLResolve(url, src);
-                    }
-                });
-            }
-
-            if (!result.html) {
-                if (!$('meta[name="viewport"]').length) {
-                    $('head').append('<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">');
-                }
-                result.html = $.html();
-            }
-
-            // trim
-            for (let k in result) {
-                if (result[k] && typeof result[k] === 'string') {
-                    result[k] = result[k].trim();
-                }
-            }
-
-            return result;
-        } else {
-            throw 'response not html';
+            return $;
         }
+        throw 'response not html';
+    }
+    /**
+     * 通过 cheerio 解析html抓取内容
+     * @param url 文章链接
+     * @param rule 文章解析规则
+     */
+    async html(url: string, rule: IRule): Promise<IPost> {
+        const $ = await this.htmlParse(url);
+
+        let result:any = {};
+
+        ['title', 'description', 'html', 'thumb'].forEach((key) => {
+            if (!result[key] && rule[key]) {
+                try {
+                    result[key] = eval(rule[key]);
+                } catch (error) {}
+            }
+        });
+
+        if (!result.title) {
+            result.title = $('title').text();
+        }
+
+        if (!result.description) {
+            if (result.html) {
+                result.description = striptags(result.html).replace(/\s/g, '').substr(0, 250);
+            } else if ($('meta[name="description"]').length) {
+                result.description = $('meta[name="description"]').attr('content');
+            }
+        }
+        if (!result.thumb) {
+            result.thumb = $('img[src]').eq(0).attr('src');
+        }
+
+        if (!result.html) {
+            result.html = $('body').html();
+        }
+
+        // trim
+        for (let k in result) {
+            if (result[k] && typeof result[k] === 'string') {
+                result[k] = result[k].trim();
+            }
+        }
+
+        return result;
     }
 }

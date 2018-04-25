@@ -9,9 +9,7 @@ export class IndexController {
     constructor(
         private readonly postService: PostService,
         private readonly ruleService: RuleService
-    ) {
-        console.log('ddd');
-    }
+    ) {}
 
     @Get()
     async root(@Res() res, @Query('page', new IntPipe(false)) page) {
