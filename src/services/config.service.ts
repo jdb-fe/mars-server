@@ -18,9 +18,6 @@ export class ConfigService {
 
     async update(data: DeepPartial<Config>) {
         let config = await this.get();
-        if (!config) {
-            config = new Config();
-        }
         Object.assign(config, data);
         return this.repository.save(config);
     }

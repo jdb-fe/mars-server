@@ -21,9 +21,7 @@ export class RuleService {
     ) { }
 
     insert(data: IRule) {
-        const rule = new Rule();
-        Object.assign(rule, data);
-        return this.repository.save(rule);
+        return this.repository.insert(data);
     }
 
     findById(id: number) {

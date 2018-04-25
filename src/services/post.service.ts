@@ -28,10 +28,8 @@ export class PostService {
                 return post;
             }
         }
-        console.log(`insr post ${data.url}`);
-        let post = new Post();
-        Object.assign(post, data);
-        return this.repository.save(post);
+        console.log(`insert post ${data.url}`);
+        return this.repository.insert(data);
     }
 
     async findByPage(page = 1, limit = 15) {
