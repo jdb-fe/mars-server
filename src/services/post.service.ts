@@ -19,12 +19,19 @@ export class PostService {
     ) { }
 
     async insert(data: IPost) {
-        let post = await this.findByUrl(data.url);
-        if (!post) {
-            post = new Post();
+        /**
+         * @desc 检测是否已经存在url
+         */
+        if (data.url) {
+            let post = await this.findByUrl(data.url);
+            if (post) {
+                return post;
+            }
         }
+        console.log(`insert post ${data.url}`);
+        let post = new Post();
         Object.assign(post, data);
-        return this.repository.save(post);
+        return this.repository.insert(post);
     }
 
     async findByPage(page = 1, limit = 15) {
