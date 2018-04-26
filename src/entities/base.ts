@@ -17,6 +17,7 @@ export abstract class Base {
     async validate() {
         const errors = await validate(this);
         if (errors.length > 0) {
+            console.log(errors);
             throw new BadRequestException(errors);
         }
     }
