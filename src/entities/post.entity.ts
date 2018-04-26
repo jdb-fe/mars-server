@@ -1,5 +1,5 @@
 import { Entity, Column, OneToMany, JoinColumn, BeforeInsert, BeforeUpdate } from 'typeorm';
-import { IsUrl, IsNotEmpty, IsOptional } from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 
 import { Base } from './base';
 import { Tag } from './tag.entity';
@@ -20,20 +20,22 @@ export class Post extends Base {
     title: string;
 
     // 描述
-    @Column('text')
+    @Column({
+        type: 'text',
+        nullable: true
+    })
     description: string;
 
     // 缩略图
-    @Column()
-    @IsOptional()
-    @IsUrl()
+    @Column({
+        nullable: true
+    })
     thumb: string;
 
     // 原文地址
     @Column({
         length: 150
     })
-    @IsUrl()
     url: string;
 
     // 内容

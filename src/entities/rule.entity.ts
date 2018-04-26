@@ -1,5 +1,5 @@
 import { Entity, Column, OneToMany, JoinColumn } from 'typeorm';
-import { IsFQDN, IsNotEmpty, MinLength } from 'class-validator';
+import { IsFQDN, IsNotEmpty, MinLength, IsOptional } from 'class-validator';
 
 import { Base } from './base';
 
@@ -29,15 +29,19 @@ export class Rule extends Base {
 
     // 缩略图解析规则
     @Column({
-        length: 100
+        length: 100,
+        nullable: true
     })
+    @IsOptional()
     @MinLength(20)
     thumb: string;
 
     // 描述解析规则
     @Column({
-        length: 100
+        length: 100,
+        nullable: true
     })
+    @IsOptional()
     @MinLength(13)
     description: string;
 
