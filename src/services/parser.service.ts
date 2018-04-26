@@ -103,12 +103,16 @@ export class ParserService {
                 result.description = $('meta[name="description"]').attr('content');
             }
         }
-        if (!result.thumb) {
-            result.thumb = $('img[src]').eq(0).attr('src');
-        }
 
         if (!result.html) {
             result.html = $('body').html();
+        }
+
+        if (!result.thumb) {
+            let $$ = cheerio.load(result.html, {
+                decodeEntities: false
+            });
+            result.thumb = $$('img[src]').eq(0).attr('src');
         }
 
         // trim
