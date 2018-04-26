@@ -17,7 +17,7 @@ export class WechatModule implements NestModule {
         consumer.apply(WechatMiddleware)
             .with({
                 token: 'wechat',
-                appid: 'wxcb816a269be9eebe',
+                appid: 'wx950185c910864189',
                 encodingAESKey: 'jvpVKAptdSpjLxoY5mXXhdDdt3SHsO4gYSmCt6iFlwb'
             })
             .forRoutes(WechatController);
