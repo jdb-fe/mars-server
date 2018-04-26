@@ -44,7 +44,10 @@ export class Post extends Base {
     html: string;
 
     // markdown内容
-    @Column('mediumtext')
+    @Column({
+        type: 'mediumtext',
+        nullable: true
+    })
     markdown: string;
 
     // 查看数量
