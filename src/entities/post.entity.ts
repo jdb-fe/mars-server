@@ -1,5 +1,5 @@
 import { Entity, Column, OneToMany, JoinColumn, BeforeInsert, BeforeUpdate } from 'typeorm';
-import { IsUrl, IsNotEmpty } from 'class-validator';
+import { IsUrl, IsNotEmpty, IsOptional } from 'class-validator';
 
 import { Base } from './base';
 import { Tag } from './tag.entity';
@@ -25,6 +25,7 @@ export class Post extends Base {
 
     // 缩略图
     @Column()
+    @IsOptional()
     @IsUrl()
     thumb: string;
 

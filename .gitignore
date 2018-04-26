@@ -368,3 +368,5 @@ package-lock.json
 yarn.lock
 *.sw*
 *.un~
+
+dist
