@@ -55,7 +55,7 @@ export class ScheduleService {
             });
         }
     }
-    @Cron({ hour: 17, minute: 0, second: 0 })
+    @Cron({ hour: 2, minute: 0, second: 0 })
     async backup() {
         const today = moment().format('YYYY-MM-DD');
         const connectionOptions:any = await getConnectionOptions();
