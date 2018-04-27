@@ -9,8 +9,7 @@ import { IndexController } from '../controllers/index.controller';
 import { PostController } from '../controllers/post.controller';
 import { ApiController } from '../controllers/api.controller';
 
-import { PostService } from '../services/post.service';
-import { ConfigService } from '../services/config.service';
+import { ScheduleService } from '../services/schedule.service';
 import { sendMail } from '../utils/utils';
 import * as pug from 'pug';
 import * as path from 'path';
@@ -22,24 +21,9 @@ import * as moment from 'moment';
 })
 export class AppModule implements OnModuleInit {
     constructor(
-        private readonly postService: PostService,
-        private readonly configService: ConfigService,
+        private readonly scheduleService: ScheduleService,
     ) {}
     onModuleInit() {
-        const compileFunc = pug.compileFile(
-            path.join(__dirname, '..', 'views', 'daily.pug'),
-        );
-        Schedule.scheduleJob({ hour: 10, minute: 0, second: 0 }, async () => {
-            let config = await this.configService.get();
-            let posts = await this.postService.find({ push: 0 });
-            let date = moment().format('YYYY-MM-DD');
-            await sendMail(config, compileFunc({ date, posts }));
-            if (posts.length) {
-                // 更新已推送
-                this.postService.update(posts.map(post => post.id), {
-                    push: 1,
-                });
-            }
-        });
+        this.scheduleService.start();
     }
 }

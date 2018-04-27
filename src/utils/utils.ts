@@ -33,7 +33,7 @@ interface IConfig {
     }
     subscriber: string[]
 };
-export function sendMail(conf: IConfig, html: string, subject = 'Mars Daily') {
+export function sendMail(conf: IConfig, html: string, subject = 'Mars Daily', attachments = []) {
     return new Promise((resolve, reject) => {
         let transporter = nodemailer.createTransport({
             host: conf.mail.host,
@@ -49,7 +49,8 @@ export function sendMail(conf: IConfig, html: string, subject = 'Mars Daily') {
             from: `"Mars" <${conf.mail.user}>`,
             to: conf.subscriber.join(','),
             subject: subject,
-            html: html
+            html: html,
+            attachments: attachments
         }, (error, info) => {
             error ? reject(error) : resolve(info);
         });
