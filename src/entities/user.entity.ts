@@ -1,13 +1,13 @@
-import { Entity, Column, OneToMany, ManyToMany } from 'typeorm';
-import { IsEmail, IsUrl } from 'class-validator';
+import { Entity, Column, OneToMany } from 'typeorm';
+import { IsEmail } from 'class-validator';
 
 import { Base } from './base';
+import { Post } from './post.entity';
 
 @Entity()
 export class User extends Base {
     // 用户头像
     @Column()
-    @IsUrl()
     avatar: string;
 
     // 用户名
@@ -26,4 +26,12 @@ export class User extends Base {
     @Column()
     @IsEmail()
     email: string;
+
+    // 文章
+    @OneToMany(type => Post, post => post.user)
+    posts: Post[];
+
+    // weixin openid
+    @Column({length: 50})
+    openid: string;
 }

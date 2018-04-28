@@ -3,6 +3,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindManyOptions, FindConditions, DeepPartial } from 'typeorm';
 import { Post } from '../entities/post.entity';
 
+import { UserService } from './user.service';
+import { User } from '../entities/user.entity';
+import { WechatService } from '../services/wechat.service';
+
 export interface IPost {
     title: string;
     thumb?: string;
@@ -16,12 +20,27 @@ export class PostService {
     constructor(
         @InjectRepository(Post)
         private readonly repository: Repository<Post>,
+        private readonly userService: UserService,
+        private readonly wechatService: WechatService,
     ) { }
 
-    async insert(data: IPost) {
+    async insert(data: IPost, openid?: string) {
         let post = await this.findByUrl(data.url);
         if (!post) {
             post = new Post();
+            if (openid) {
+                let user = await this.userService.findByOpenId(openid);
+                if (user) {
+                    post.user = user;
+                } else {
+                    let wechatUser = await this.wechatService.findByOpenId(openid);
+                    if (wechatUser) {
+                        user = new User();
+                        Object.assign(user, wechatUser);
+                        post.user = user;
+                    }
+                }
+            }
         }
         Object.assign(post, data);
         return this.repository.save(post);
@@ -61,16 +80,5 @@ export class PostService {
 
     update(criteria: string | string[] | number | number[] | FindConditions<Post>, partialEntity: DeepPartial<Post>) {
         return this.repository.update(criteria, partialEntity);
-    }
-
-    /**
-     * @desc 获取未推送文章
-     */
-    async findNonpush() {
-        let posts = await this.repository.find({ push: 0 });
-        if (posts.length) {
-            let update = await this.repository.update(posts.map(post => post.id), { push: 1 });
-        }
-        return posts;
     }
 }

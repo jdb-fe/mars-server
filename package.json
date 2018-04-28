@@ -40,7 +40,8 @@
         "turndown-plugin-gfm": "^1.0.1",
         "typeorm": "^0.2.3",
         "typescript": "^2.8.3",
-        "wechat": "^2.1.0"
+        "wechat": "^2.1.0",
+        "wechat-mp-hack": "^1.1.6"
     },
     "devDependencies": {
         "@commitlint/cli": "^6.1.3",

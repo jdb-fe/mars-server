@@ -5,12 +5,13 @@ import { WechatController } from '../controllers/wechat.controller';
 import { WechatMiddleware } from '../middlewares/wechat.middleware';
 
 import { ParserService } from '../services/parser.service';
+import { WechatService } from '../services/wechat.service';
 
 @Module({
     imports: [CommonModule],
     controllers: [WechatController],
-    components: [ParserService],
-    exports: [ParserService]
+    components: [ParserService, WechatService],
+    exports: [ParserService, WechatService]
 })
 export class WechatModule implements NestModule {
     configure(consumer: MiddlewaresConsumer): void {

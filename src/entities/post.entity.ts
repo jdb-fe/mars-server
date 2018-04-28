@@ -1,8 +1,9 @@
-import { Entity, Column, OneToMany, JoinColumn, BeforeInsert, BeforeUpdate } from 'typeorm';
+import { Entity, Column, OneToMany, JoinColumn, BeforeInsert, ManyToOne } from 'typeorm';
 import { IsNotEmpty } from 'class-validator';
 
 import { Base } from './base';
 import { Tag } from './tag.entity';
+import { User } from './user.entity';
 
 import { html2md } from '../utils/utils';
 
@@ -78,6 +79,14 @@ export class Post extends Base {
     })
     @JoinColumn()
     tags: Tag[]
+
+    // 推荐人/作者
+    @ManyToOne(type => User, user => user.posts, {
+        eager: true,
+        cascade: true
+    })
+    @JoinColumn()
+    user: User;
 
     @BeforeInsert()
     toMarkdown() {
