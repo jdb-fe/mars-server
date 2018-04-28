@@ -7,10 +7,11 @@ import { PostService } from '../services/post.service';
 import { ConfigService } from '../services/config.service';
 import { RuleService } from '../services/rule.service';
 import { ScheduleService } from '../services/schedule.service';
+import { WechatService } from '../services/wechat.service';
 
 @Module({
     imports: [TypeOrmModule.forFeature(importToArray(entities))],
-    components: [PostService, ConfigService, RuleService, ScheduleService],
-    exports: [PostService, ConfigService, RuleService, ScheduleService]
+    components: [PostService, ConfigService, RuleService, ScheduleService, WechatService],
+    exports: [PostService, ConfigService, RuleService, ScheduleService, WechatService]
 })
 export class CommonModule {}
