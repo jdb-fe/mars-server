@@ -1,6 +1,7 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 
 import { PostService } from '../services/post.service';
+import { IntPipe } from '../pipes/int.pipe';
 
 @Controller('api')
 export class ApiController {
@@ -9,12 +10,31 @@ export class ApiController {
     }
 
     @Get('post')
-    findAll() {
-        return this.postService.findByPage();
+    async findAll(@Query('page', new IntPipe(false)) page, @Query('limit', new IntPipe(false)) limit) {
+        if (page < 1) {
+            page = 1;
+        }
+        if (limit < 0) {
+            limit = 15;
+        }
+        const results = await this.postService.findByPage(page, limit);
+        return this.success(results);
     }
 
     @Get('post/:id')
-    findById(@Param() params) {
-        return this.postService.findById(params.id);
+    async findById(@Param('id', new IntPipe()) id) {
+        const post = await this.postService.findById(id);
+        return this.success(post);
+    }
+
+    private success(data?: Object, msg = '') {
+        return {
+            error: {
+                returnCode: 0,
+                returnMessage: 'success',
+                returnUserMessage: msg || '成功'
+            },
+            data: data
+        };
     }
 }
