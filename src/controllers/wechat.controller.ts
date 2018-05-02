@@ -40,23 +40,20 @@ export class WechatController {
         res.reply(msg);
     }
     private async recommendPost(url: string, openid: string): Promise<any> {
-        let output:any = await this.postService.findByUrl(url);
-        if (!output) {
-            // 是否有规则
-            let parseRule = await this.ruleService.findByUrl(url);
-            try {
-                if (parseRule) {
-                    output = await this.parserService.html(url, parseRule);
-                } else {
-                    output = await this.parserService.mercury(url);
-                }
-            } catch (error) {
-                console.log(`data parse url: ${url}`);
-                output = await this.parserService.data(url);
+        let output:any = {};
+        // 是否有规则
+        let parseRule = await this.ruleService.findByUrl(url);
+        try {
+            if (parseRule) {
+                output = await this.parserService.html(url, parseRule);
+            } else {
+                output = await this.parserService.mercury(url);
             }
-            output.url = url;
-            const post = await this.postService.insert(output, openid);
+        } catch (error) {
+            output = await this.parserService.data(url);
         }
+        output.url = url;
+        const post = await this.postService.insert(output, openid);
         return [{
             title: output.title,
             description: output.description,
@@ -99,7 +96,7 @@ export class WechatController {
                     name: userDetail.user_name,
                     remark: userDetail.user_remark,
                     signature: userDetail.user_signature,
-                    createTime: userDetail.user_create_time                 
+                    createTime: userDetail.user_create_time
                 };
             });
         }));
