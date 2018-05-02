@@ -15,7 +15,10 @@ export class User extends Base {
     name: string;
 
     // 登录名
-    @Column({ length: 50 })
+    @Column({
+        length: 50,
+        nullable: true
+     })
     loginname: string;
 
     // 个人简介
