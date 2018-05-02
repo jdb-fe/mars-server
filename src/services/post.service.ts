@@ -28,22 +28,25 @@ export class PostService {
         let post = await this.findByUrl(data.url);
         if (!post) {
             post = new Post();
-            if (openid) {
-                let user = await this.userService.findByOpenId(openid);
-                if (user) {
-                    post.user = user;
-                } else {
-                    let wechatUser = await this.wechatService.findByOpenId(openid);
-                    if (wechatUser) {
-                        user = new User();
-                        Object.assign(user, wechatUser);
-                        post.user = user;
-                    }
-                }
-            }
+        }
+        if (!post.user && openid) {
+            post.user = await this.getUser(openid);
         }
         Object.assign(post, data);
         return this.repository.save(post);
+    }
+
+    private async getUser(openid: string): Promise<User> {
+        let user = await this.userService.findByOpenId(openid);
+        if (user) {
+            return user;
+        }
+        let wechatUser = await this.wechatService.findByOpenId(openid);
+        if (wechatUser) {
+            user = new User();
+            Object.assign(user, wechatUser);
+            return user;
+        }
     }
 
     async findByPage(page = 1, limit = 15) {
