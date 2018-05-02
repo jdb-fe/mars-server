@@ -42,6 +42,7 @@ const hljsClasss = {
 };
 
 const Renderer = new MarkdownIt({
+    html: true,
     breaks: true,
     linkify: true,
     typographer: true,

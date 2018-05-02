@@ -4,21 +4,27 @@ block vars
   - var title = "首页"
 
 block content
-    div.page-header
+    .page-header
         h1.page-title
             a(href="./") 文章列表
-    div.row.row-cards.row-deck
+    .row.row-cards.row-deck
         each post in posts
-            div.col-lg-4
-                div.card
-                    .card-header
-                        h3.card-title
+            .col-lg-4
+                .card
+                    .card-body
+                        h4
                             a(href=post.url target="_blank" rel="noopener") #{post.title}
-                    .card-body.text-muted #{post.description}
-    div.row
-        div.col-12
+                        .text-muted #{post.description}
+                        if post.user
+                            .d-flex.align-items-center.pt-5.mt-auto
+                                div(class="avatar avatar-md mr-3" style=`background-image: url(${post.user.avatar})`)
+                                div
+                                    span.text-default #{post.user.name}
+                                    small.d-block.text-muted #{moment(post.createAt).startOf('minute').fromNow()}
+    .row
+        .col-12
             if pages.totalPage > 1
-                div.card
+                .card
                     nav.card-body
                         ul.pagination
                             if pages.page > 1

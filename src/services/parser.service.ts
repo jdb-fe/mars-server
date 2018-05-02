@@ -52,7 +52,7 @@ export class ParserService {
             });
 
             // 修复链接地址
-            ['href', 'src', 'data-src'].forEach((attr) => {
+            ['href', 'src', 'data-src', 'data-original'].forEach((attr) => {
                 $(`[${attr}]`).each(function () {
                     let $this = $(this);
                     let val = $this.attr(attr);

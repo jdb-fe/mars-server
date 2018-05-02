@@ -1,0 +1,24 @@
+extends layout.pug
+
+block vars
+  - var title = post.title
+
+block content
+    .page-header
+        p.page-title
+            a(href="/") 文章列表
+    .row
+        .col-lg-12
+            .card
+                .card-header
+                    if post.user
+                        div(class="avatar avatar-md mr-3" style=`background-image: url(${post.user.avatar})` title=`${post.user.name}`)
+                    h1.card-title
+                        a(href=post.url target="_blank" rel="noopener" title=`${post.title}`) #{post.title}
+                    .card-options #{moment(post.createAt).startOf('minute').fromNow()}
+                if post.thumb
+                    img(class="card-img-top" src=`${post.thumb}`)
+                .card-body
+                    .text-wrap!=post.html
+
+
