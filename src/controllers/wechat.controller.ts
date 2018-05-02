@@ -88,7 +88,7 @@ export class WechatController {
             return WechatApi.user_info_detail(user.user_openid).then(userDetail => {
                 return {
                     openid: userDetail.user_openid,
-                    avatar: userDetail.user_head_img,
+                    avatar: userDetail.user_head_img.replace(/^http:\/\//, 'https://'),
                     city: userDetail.user_city,
                     country: userDetail.user_country,
                     province: userDetail.user_province,
