@@ -7,7 +7,9 @@ import { Post } from './post.entity';
 @Entity()
 export class User extends Base {
     // 用户头像
-    @Column()
+    @Column({
+        nullable: true
+    })
     avatar: string;
 
     // 用户名
@@ -18,15 +20,19 @@ export class User extends Base {
     @Column({
         length: 50,
         nullable: true
-     })
+    })
     loginname: string;
 
     // 个人简介
-    @Column()
+    @Column({
+        nullable: true
+    })
     description: string;
 
     // email
-    @Column()
+    @Column({
+        nullable: true
+    })
     @IsOptional()
     @IsEmail()
     email: string;
@@ -36,6 +42,9 @@ export class User extends Base {
     posts: Post[];
 
     // weixin openid
-    @Column({length: 50})
+    @Column({
+        length: 50,
+        nullable: true
+    })
     openid: string;
 }
