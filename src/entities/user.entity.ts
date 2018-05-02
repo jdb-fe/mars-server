@@ -1,5 +1,5 @@
 import { Entity, Column, OneToMany } from 'typeorm';
-import { IsEmail } from 'class-validator';
+import { IsEmail, IsOptional } from 'class-validator';
 
 import { Base } from './base';
 import { Post } from './post.entity';
@@ -24,6 +24,7 @@ export class User extends Base {
 
     // email
     @Column()
+    @IsOptional()
     @IsEmail()
     email: string;
 
