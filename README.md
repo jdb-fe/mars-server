@@ -65,8 +65,6 @@ response: {
             description: '',
             thumb: '',
             url: 'https://zhuanlan.zhihu.com/p/36253316',
-            html: '',
-            markdown: '',
             user: {
                 avatar: '',
                 name: ''
