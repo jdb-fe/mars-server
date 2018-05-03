@@ -1,6 +1,6 @@
 import { Component } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, FindManyOptions, FindConditions, DeepPartial } from 'typeorm';
+import { Repository, FindManyOptions, FindConditions, DeepPartial, FindOneOptions } from 'typeorm';
 import { Post } from '../entities/post.entity';
 
 import { UserService } from './user.service';
@@ -77,8 +77,8 @@ export class PostService {
         }
     }
 
-    findById(id: number) {
-        return this.repository.findOne(id);
+    findById(id: number, options?: FindOneOptions<Post>) {
+        return this.repository.findOne(id, options);
     }
 
     count(options?: FindManyOptions<Post>) {
@@ -95,5 +95,9 @@ export class PostService {
 
     update(criteria: string | string[] | number | number[] | FindConditions<Post>, partialEntity: DeepPartial<Post>) {
         return this.repository.update(criteria, partialEntity);
+    }
+
+    increment(id: number, key: string, value = 1) {
+        return this.repository.increment({id: id}, key, value);
     }
 }

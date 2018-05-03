@@ -105,3 +105,22 @@ response: {
     }
 }
 ```
+
+### 增加文章浏览量
+
+```
+GET url: /api/post/view
+query: {
+    id: 12 // 文章id
+}
+response: {
+    error: {
+        returnCode: 0,
+        returnMessage: 'success',
+        returnUserMessage: '成功'
+    },
+    data: {
+        views: 12
+    }
+}
+```

@@ -21,6 +21,13 @@ export class ApiController {
         return this.success(results);
     }
 
+    @Get('post/view')
+    async postView(@Query('id', new IntPipe()) id) {
+        await this.postService.increment(id, 'views');
+        const post = await this.postService.findById(id, {select: ['views']});
+        return this.success(post);
+    }
+
     @Get('post/:id')
     async findById(@Param('id', new IntPipe()) id) {
         const post = await this.postService.findById(id);
