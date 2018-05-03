@@ -50,17 +50,22 @@ export class PostService {
     }
 
     async findByPage(page = 1, limit = 15) {
-        const result = await this.repository.findAndCount({
-            skip: (page - 1) * limit,
-            take: limit,
-            select: ['id', 'thumb', 'url', 'createAt', 'title', 'description'],
-            join: {
-                alias: 'post',
-                leftJoinAndSelect: {
-                    user: 'post.user'
-                }
-            }
-        });
+        const result = await this.repository.createQueryBuilder('post')
+            .select([
+                'post.id',
+                'post.thumb',
+                'post.url',
+                'post.createAt',
+                'post.title',
+                'post.description',
+                'user.id',
+                'user.name',
+                'user.avatar'
+            ])
+            .leftJoin('post.user', 'user')
+            .skip((page - 1) * limit)
+            .take(limit)
+            .getManyAndCount();
         return {
             posts: result[0],
             pages: {
