@@ -1,0 +1,4 @@
+mixin input(type, label, name, placeholder)
+    .form-group
+        label(class="form-label" for=name)= label
+        input(class="form-control" type=type name=name id=name placeholder=placeholder)&attributes(attributes)

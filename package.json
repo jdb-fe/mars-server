@@ -17,6 +17,7 @@
     "dependencies": {
         "@nestjs/common": "^4.6.6",
         "@nestjs/core": "^4.6.6",
+        "@nestjs/passport": "^1.0.6",
         "@nestjs/typeorm": "^2.0.0",
         "axios": "^0.18.0",
         "cheerio": "^1.0.0-rc.2",
@@ -38,7 +39,7 @@
         "striptags": "^3.1.1",
         "turndown": "^4.0.2",
         "turndown-plugin-gfm": "^1.0.1",
-        "typeorm": "^0.2.4",
+        "typeorm": "^0.2.5",
         "typescript": "^2.8.3",
         "wechat": "^2.1.0",
         "wechat-mp-hack": "^1.1.6"

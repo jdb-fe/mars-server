@@ -6,10 +6,12 @@ import { User } from '../entities/user.entity';
 @Component()
 export class UserService {
     constructor(
-        @InjectRepository(User)
-        private readonly repository: Repository<User>,
-    ) { }
+        @InjectRepository(User) private readonly repository: Repository<User>,
+    ) {}
     findByOpenId(openid: string) {
-        return this.repository.findOne({ openid: openid });
+        return this.repository.findOne({ openid });
+    }
+    findByName(loginname: string) {
+        return this.repository.findOne({ loginname });
     }
 }

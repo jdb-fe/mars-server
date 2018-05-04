@@ -23,6 +23,13 @@ export class User extends Base {
     })
     loginname: string;
 
+    // 登录密码
+    @Column({
+        length: 32,
+        nullable: true
+    })
+    password: string;
+
     // 个人简介
     @Column({
         nullable: true
