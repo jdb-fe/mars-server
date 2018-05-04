@@ -3,6 +3,9 @@ extends layout.pug
 block vars
   - var title = post.title
 
+block append head
+    link(rel="stylesheet", href="/static/css/detail.css")
+
 block content
     .page-header
         p.page-title

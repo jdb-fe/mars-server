@@ -13,7 +13,7 @@ moment.locale('zh-cn');
     exprs.locals.moment = moment;
     const app = await NestFactory.create(AppModule, exprs, {});
 
-    app.use(express.static(path.join(__dirname, 'public')));
+    app.use('/static', express.static(path.join(__dirname, 'public')));
     app.set('views', __dirname + '/views');
     app.set('view engine', 'pug');
     app.disable('x-powered-by');

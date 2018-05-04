@@ -50,21 +50,22 @@ const Renderer = new MarkdownIt({
         let res = Renderer.utils.escapeHtml(str);
         if (lang && hljs.getLanguage(lang)) {
             try {
-                res = hljs.highlight(lang, str, true).value;
+                let code = hljs.highlight(lang, str, true).value;
+                let $ = cheerio.load(code, {
+                    decodeEntities: false
+                });
+                for (let className in hljsClasss) {
+                    $(`${className}`).each(function () {
+                        let $this = $(this);
+                        let style = $this.attr('style') || '';
+                        style += hljsClasss[className];
+                        $this.attr('style', style);
+                    });
+                }
+                res = $.html();
             } catch (__) {}
         }
-        const $ = cheerio.load(`<pre class="hljs"><code>${res}</code></pre>`, {
-            decodeEntities: false
-        });
-        for (let className in hljsClasss) {
-            $(`${className}`).each(function () {
-                let $this = $(this);
-                let style = $this.attr('style') || '';
-                style += hljsClasss[className];
-                $this.attr('style', style);
-            });
-        }
-        return $.html();
+        return `<pre class="hljs" style="${hljsClasss['.hljs']}"><code>${res}</code></pre>`;
     }
 });
 

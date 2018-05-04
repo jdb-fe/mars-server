@@ -7,16 +7,16 @@ html
         meta(name="viewport", content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, minimal-ui")
         meta(name="referrer", content="never")
         meta(name="author", content="bukas")
-        link(rel="shortcut icon" type="image/x-icon" href="/favicon.ico")
+        link(rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico")
         title #{title}
         block head
-            link(rel="stylesheet", href="/css/dashboard.css")
-            script(src="/js/require.min.js")
+            link(rel="stylesheet", href="/static/css/dashboard.css")
+            script(src="/static/js/require.min.js")
             script.
                 requirejs.config({
-                    baseUrl: '/'
+                    baseUrl: '/static/'
                 });
-            script(src="/js/dashboard.js")
+            script(src="/static/js/dashboard.js")
 body
     div.container
         block content
