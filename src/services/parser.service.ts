@@ -57,7 +57,7 @@ export class ParserService {
                     let $this = $(this);
                     let val = $this.attr(attr);
                     if (val) {
-                        $this.attr(attr.replace('data-', ''), URLResolve(url, val));
+                        $this.attr(attr === 'href' ? 'href' : 'src', URLResolve(url, val));
                         if ($this.get(0).tagName === 'iframe') {
                             let urlParams = new URLSearchParams(val);
                             let width = urlParams.get('width') || '100%';
