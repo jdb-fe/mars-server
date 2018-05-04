@@ -1,6 +1,7 @@
 import { Component } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindManyOptions, FindConditions, DeepPartial, FindOneOptions } from 'typeorm';
+import { html2md } from '../utils/utils';
 import { Post } from '../entities/post.entity';
 
 import { UserService } from './user.service';
@@ -33,6 +34,9 @@ export class PostService {
             post.user = await this.getUser(openid);
         }
         Object.assign(post, data);
+        if (post.html) {
+            post.markdown = html2md(post.html);
+        }
         return this.repository.save(post);
     }
 

@@ -1,11 +1,9 @@
-import { Entity, Column, OneToMany, JoinColumn, BeforeInsert, ManyToOne } from 'typeorm';
+import { Entity, Column, OneToMany, JoinColumn, ManyToOne } from 'typeorm';
 import { IsNotEmpty } from 'class-validator';
 
 import { Base } from './base';
 import { Tag } from './tag.entity';
 import { User } from './user.entity';
-
-import { html2md } from '../utils/utils';
 
 @Entity({
     orderBy: {
@@ -87,11 +85,4 @@ export class Post extends Base {
     })
     @JoinColumn()
     user: User;
-
-    @BeforeInsert()
-    toMarkdown() {
-        if (this.html) {
-            this.markdown = html2md(this.html);
-        }
-    }
 }
