@@ -1,7 +1,10 @@
 import * as turndown from 'turndown';
 import * as turndownPluginGfm from 'turndown-plugin-gfm';
 
-const turndownService = new turndown();
+const turndownService = new turndown({
+    codeBlockStyle: 'fenced'
+});
+turndownService.remove('noscript');
 turndownService.use(turndownPluginGfm.gfm);
 
 /**
