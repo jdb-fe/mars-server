@@ -1,6 +1,58 @@
+import * as turndown from 'turndown';
+import * as turndownPluginGfm from 'turndown-plugin-gfm';
 import * as MarkdownIt from 'markdown-it';
 import * as hljs from 'highlight.js';
 import * as cheerio from 'cheerio';
+
+
+const turndownService = new turndown({
+    codeBlockStyle: 'fenced'
+});
+turndownService.remove('noscript');
+/**
+ * http://blog.aepkill.com/2016/10/07/zone.js/
+ */
+const highlightRegExp = /highlight|hljs/
+turndownService.addRule('highlightedCodes', {
+    filter: node => {
+        const classes = node.className.split(' ');
+        return node.firstChild && (classes.includes('highlight') || classes.includes('hljs'));
+    },
+    replacement: (content, node, options) => {
+        const firstChild = node.firstChild;
+        const classes = node.className.split(' ');
+        let language = '';
+        let index = classes.indexOf('highlight');
+        if (index !== -1) {
+            classes.splice(index, 1);
+            language = classes[0];
+        } else {
+            language = firstChild.className.split('-')[1];
+        }
+        language = language || '';
+        const $ = cheerio.load(firstChild.innerHTML, {
+            decodeEntities: false
+        });
+        let codes = '';
+        let tmp = [];
+        $('pre').last().find('.line').each(function () {
+            tmp.push($(this).text());
+        });
+        if (tmp.length) {
+            codes = tmp.join('\n');
+        } else {
+            codes = $('code').text() || firstChild.textContent;
+        }
+        return `\n\n${options.fence}${language}\n${codes}\n${options.fence}\n\n`;
+    }
+});
+turndownService.use(turndownPluginGfm.gfm);
+
+export function toMarkdown(html: string): string {
+    return turndownService.turndown(html);
+}
+
+
 
 const hljsClasss = {
     '.hljs': 'display: block;overflow-x: auto;padding: 0.5em;background: #23241f;color: #f8f8f2;',
@@ -69,6 +121,6 @@ const Renderer = new MarkdownIt({
     }
 });
 
-export function md2html(markdown: string): string {
+export function toHtml(markdown: string): string {
     return Renderer.render(markdown);
 }

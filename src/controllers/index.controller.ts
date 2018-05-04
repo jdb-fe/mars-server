@@ -3,7 +3,7 @@ import { Controller, Get, Res, Post, Body, Query, Param } from '@nestjs/common';
 import { PostService } from '../services/post.service';
 import { IRule, RuleService } from '../services/rule.service';
 import { IntPipe } from '../pipes/int.pipe';
-import { md2html } from '../utils/md2html';
+import { toHtml } from '../utils/htmlMarkdown';
 
 @Controller()
 export class IndexController {
@@ -25,7 +25,7 @@ export class IndexController {
     async postDetail(@Res() res, @Param('id', new IntPipe()) id) {
         const post = await this.postService.findById(id);
         if (post.markdown) {
-            post.html = md2html(post.markdown);
+            post.html = toHtml(post.markdown);
         }
         res.render('detail', {post});
     }

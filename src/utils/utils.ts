@@ -1,20 +1,3 @@
-import * as turndown from 'turndown';
-import * as turndownPluginGfm from 'turndown-plugin-gfm';
-
-const turndownService = new turndown({
-    codeBlockStyle: 'fenced'
-});
-turndownService.remove('noscript');
-turndownService.use(turndownPluginGfm.gfm);
-
-/**
- * html转markdown
- * @param html
- */
-export function html2md(html: string): string {
-    return turndownService.turndown(html);
-}
-
 import { Validator } from 'class-validator';
 export const validator: Validator = new Validator();
 
