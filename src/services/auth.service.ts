@@ -20,7 +20,7 @@ export class AuthService {
         if (!user) {
             throw new Error('User Do not exists!');
         }
-        if (user.password !== createHmac('sha256', password).digest('hex')) {
+        if (user.password !== createHmac('md5', password).digest('hex')) {
             throw new Error('Password is incorrect!');
         }
         const playload: JwtPayload = {
