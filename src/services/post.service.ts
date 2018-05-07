@@ -48,6 +48,8 @@ export class PostService {
         let wechatUser = await this.wechatService.findByOpenId(openid);
         if (wechatUser) {
             user = new User();
+            // 去掉昵称里面的换行
+            wechatUser.name = wechatUser.name.replace(/\n|\r/g, '');
             Object.assign(user, wechatUser);
             return user;
         }
