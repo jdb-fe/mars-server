@@ -1,4 +1,4 @@
-import { Component } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindManyOptions, FindConditions, DeepPartial, FindOneOptions } from 'typeorm';
 import { toMarkdown } from '../utils/htmlMarkdown';
@@ -16,7 +16,7 @@ export interface IPost {
     url?: string;
 }
 
-@Component()
+@Injectable()
 export class PostService {
     constructor(
         @InjectRepository(Post)

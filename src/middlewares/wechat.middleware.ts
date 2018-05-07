@@ -1,4 +1,4 @@
-import { Middleware, NestMiddleware, ExpressMiddleware } from '@nestjs/common';
+import { Injectable, NestMiddleware, MiddlewareFunction } from '@nestjs/common';
 
 import * as wechat from 'wechat';
 
@@ -9,9 +9,9 @@ export interface WechatConfig {
     checkSignature?: boolean;
 }
 
-@Middleware()
+@Injectable()
 export class WechatMiddleware implements NestMiddleware {
-    resolve(config: string | WechatConfig): ExpressMiddleware {
+    resolve(config: string | WechatConfig): MiddlewareFunction {
         return new wechat(config).middlewarify();
     }
 }

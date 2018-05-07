@@ -1,4 +1,4 @@
-import { Module, NestModule, MiddlewaresConsumer } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 
 import { CommonModule } from './common.module';
 import { WechatController } from '../controllers/wechat.controller';
@@ -9,11 +9,11 @@ import { ParserService } from '../services/parser.service';
 @Module({
     imports: [CommonModule],
     controllers: [WechatController],
-    components: [ParserService],
+    providers: [ParserService],
     exports: [ParserService]
 })
 export class WechatModule implements NestModule {
-    configure(consumer: MiddlewaresConsumer): void {
+    configure(consumer: MiddlewareConsumer): void {
         consumer.apply(WechatMiddleware)
             .with({
                 token: 'wechat',

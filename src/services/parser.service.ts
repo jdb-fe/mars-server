@@ -1,4 +1,4 @@
-import { Component } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
 import * as striptags from 'striptags';
 import axios from 'axios';
@@ -9,7 +9,7 @@ import { IRule } from './rule.service';
 import { IPost } from './post.service';
 import { ConfigService } from './config.service';
 
-@Component()
+@Injectable()
 export class ParserService {
     constructor(private readonly configService: ConfigService) {
     }

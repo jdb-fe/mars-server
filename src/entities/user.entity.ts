@@ -1,5 +1,6 @@
 import { Entity, Column, OneToMany } from 'typeorm';
 import { IsEmail, IsOptional } from 'class-validator';
+import { createHmac } from 'crypto';
 
 import { Base } from './base';
 import { Post } from './post.entity';
@@ -8,7 +9,7 @@ import { Post } from './post.entity';
 export class User extends Base {
     // 用户头像
     @Column({
-        nullable: true
+        nullable: true,
     })
     avatar: string;
 
@@ -19,26 +20,26 @@ export class User extends Base {
     // 登录名
     @Column({
         length: 50,
-        nullable: true
+        nullable: true,
     })
     loginname: string;
 
     // 登录密码
     @Column({
         length: 32,
-        nullable: true
+        nullable: true,
     })
     password: string;
 
     // 个人简介
     @Column({
-        nullable: true
+        nullable: true,
     })
     description: string;
 
     // email
     @Column({
-        nullable: true
+        nullable: true,
     })
     @IsOptional()
     @IsEmail()
@@ -51,7 +52,11 @@ export class User extends Base {
     // weixin openid
     @Column({
         length: 50,
-        nullable: true
+        nullable: true,
     })
     openid: string;
+
+    validPassword(password: string): boolean {
+        return this.password === createHmac('md5', password).digest('hex');
+    }
 }

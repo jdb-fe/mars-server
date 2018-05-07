@@ -1,9 +1,9 @@
-import { Component } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DeepPartial } from 'typeorm';
 import { Config } from '../entities/config.entity';
 
-@Component()
+@Injectable()
 export class ConfigService {
     constructor(
         @InjectRepository(Config)

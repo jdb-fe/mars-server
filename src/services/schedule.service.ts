@@ -1,4 +1,4 @@
-import { Component } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import * as Schedule from 'node-schedule';
 import 'reflect-metadata';
 
@@ -16,7 +16,7 @@ import { execSync } from 'child_process';
 import { getConnectionOptions } from 'typeorm';
 import * as fs from 'fs';
 
-@Component()
+@Injectable()
 export class ScheduleService {
     private jobs = {};
     constructor(

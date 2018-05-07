@@ -12,7 +12,7 @@ import { UserService } from '../services/user.service';
 
 @Module({
     imports: [TypeOrmModule.forFeature(importToArray(entities))],
-    components: [PostService, ConfigService, RuleService, ScheduleService, WechatService, UserService],
+    providers: [PostService, ConfigService, RuleService, ScheduleService, WechatService, UserService],
     exports: [PostService, ConfigService, RuleService, ScheduleService, WechatService, UserService]
 })
 export class CommonModule {}

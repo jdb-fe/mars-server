@@ -1,9 +1,9 @@
-import { Component } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DeepPartial } from 'typeorm';
 import { User } from '../entities/user.entity';
 
-@Component()
+@Injectable()
 export class UserService {
     constructor(
         @InjectRepository(User) private readonly repository: Repository<User>,

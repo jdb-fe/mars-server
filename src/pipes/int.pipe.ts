@@ -1,11 +1,11 @@
 import {
     PipeTransform,
-    Pipe,
+    Injectable,
     BadRequestException,
     ArgumentMetadata,
 } from '@nestjs/common';
 
-@Pipe()
+@Injectable()
 export class IntPipe implements PipeTransform<string> {
     /**
      * 参数是否必选

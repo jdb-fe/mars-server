@@ -1,5 +1,5 @@
 import { parse } from 'url';
-import { Component } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, UpdateResult } from 'typeorm';
 import { Rule } from '../entities/rule.entity';
@@ -13,7 +13,7 @@ export interface IRule {
     html: string;
 }
 
-@Component()
+@Injectable()
 export class RuleService {
     constructor(
         @InjectRepository(Rule)
