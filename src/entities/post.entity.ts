@@ -32,9 +32,7 @@ export class Post extends Base {
     thumb: string;
 
     // 原文地址
-    @Column({
-        length: 150
-    })
+    @Column()
     url: string;
 
     // 内容
