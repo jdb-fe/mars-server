@@ -27,7 +27,11 @@ turndownService.addRule('highlightedCodes', {
             classes.splice(index, 1);
             language = classes[0];
         } else {
-            language = firstChild.className.split('-')[1];
+            if (node.tagName.toLowerCase() === 'code') {
+                language = node.className && node.className.split(' ')[1];
+            } else {
+                language = firstChild.className && firstChild.className.split('-')[1];
+            }
         }
         language = language || '';
         const $ = cheerio.load(firstChild.innerHTML, {
