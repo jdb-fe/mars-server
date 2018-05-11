@@ -23,18 +23,20 @@ turndownService.addRule('highlightedCodes', {
         const classes = node.className.split(' ');
         let language = '';
         let index = classes.indexOf('highlight');
+        let el = firstChild;
         if (index !== -1) {
             classes.splice(index, 1);
             language = classes[0];
         } else {
             if (node.tagName.toLowerCase() === 'code') {
                 language = node.className && node.className.split(' ')[1];
+                el = node;
             } else {
                 language = firstChild.className && firstChild.className.split('-')[1];
             }
         }
         language = language || '';
-        const $ = cheerio.load(firstChild.innerHTML, {
+        const $ = cheerio.load(el.innerHTML, {
             decodeEntities: false
         });
         let codes = '';
