@@ -25,9 +25,9 @@ export class IndexController {
     @Render('detail')
     async postDetail( @Param('id', new IntPipe()) id) {
         const post = await this.postService.findById(id);
-        if (post.markdown) {
-            post.html = toHtml(post.markdown);
-        }
+        // if (post.markdown) {
+        //     post.html = toHtml(post.markdown);
+        // }
         return {post};
     }
 
