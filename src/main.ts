@@ -14,8 +14,8 @@ moment.locale('zh-cn');
     const app = await NestFactory.create(AppModule, exprs, {});
 
     app.use('/static', express.static(path.join(__dirname, 'public')));
-    app.set('views', __dirname + '/views');
-    app.set('view engine', 'pug');
+    app.setBaseViewsDir(path.join(__dirname, 'views'));
+    app.setViewEngine('pug');
     app.disable('x-powered-by');
     app.useGlobalPipes(new ValidationPipe());
     await app.listen(3000);

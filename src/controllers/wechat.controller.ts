@@ -29,11 +29,18 @@ export class WechatController {
             if (validator.isURL(input) ) {
                 msg = await this.recommendPost(input, weixin.FromUserName);
             } else if (weixin.FromUserName === 'osl8HwPBTCsVbquNsnYbUfOQH8sM') {
-                if (input === '同步微信用户') {
-                    msg = await this.syncWechat();
-                } else if (input === '发送邮件') {
-                    await this.scheduleService.dailyPost();
-                    msg = '邮件群发成功';
+                switch(input) {
+                    case '同步微信用户':
+                        msg = await this.syncWechat();
+                        break;
+                    case '发送邮件':
+                        await this.scheduleService.dailyPost();
+                        msg = '邮件群发成功';
+                        break;
+                    case '备份数据':
+                        await this.scheduleService.backup();
+                        msg = '数据备份成功';
+                        break;
                 }
             }
         }

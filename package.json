@@ -11,10 +11,10 @@
         "commitmsg": "commitlint -e $GIT_PARAMS"
     },
     "dependencies": {
-        "@nestjs/common": "rc",
-        "@nestjs/core": "rc",
+        "@nestjs/common": "^5.0.0",
+        "@nestjs/core": "^5.0.0",
         "@nestjs/passport": "^1.0.10",
-        "@nestjs/typeorm": "^2.0.0",
+        "@nestjs/typeorm": "^3.0.0",
         "axios": "^0.18.0",
         "cheerio": "^1.0.0-rc.2",
         "class-transformer": "^0.1.9",
@@ -37,7 +37,7 @@
         "rxjs": "^6.1.0",
         "striptags": "^3.1.1",
         "turndown": "^4.0.2",
-        "turndown-plugin-gfm": "^1.0.1",
+        "turndown-plugin-gfm": "^1.0.2",
         "typeorm": "^0.2.5",
         "typescript": "^2.8.3",
         "wechat": "^2.1.0",
