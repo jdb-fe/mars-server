@@ -1,4 +1,4 @@
-import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer, HttpModule } from '@nestjs/common';
 
 import { CommonModule } from './common.module';
 import { WechatController } from '../controllers/wechat.controller';
@@ -7,7 +7,7 @@ import { WechatMiddleware } from '../middlewares/wechat.middleware';
 import { ParserService } from '../services/parser.service';
 
 @Module({
-    imports: [CommonModule],
+    imports: [CommonModule, HttpModule],
     controllers: [WechatController],
     providers: [ParserService],
     exports: [ParserService]

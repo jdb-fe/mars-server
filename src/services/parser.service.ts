@@ -1,7 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpService } from '@nestjs/common';
 
 import * as striptags from 'striptags';
-import axios from 'axios';
 import * as cheerio from 'cheerio';
 import { resolve as URLResolve, URLSearchParams } from 'url';
 
@@ -11,7 +10,10 @@ import { ConfigService } from './config.service';
 
 @Injectable()
 export class ParserService {
-    constructor(private readonly configService: ConfigService) {
+    constructor(
+        private readonly configService: ConfigService,
+        private readonly httpService: HttpService
+    ) {
     }
     async data(url: string): Promise<IPost> {
         const $ = await this.htmlParse(url);
@@ -27,14 +29,14 @@ export class ParserService {
     }
     async mercury(url: string): Promise<IPost> {
         const conf = await this.configService.get();
-        const response = await axios.get('https://mercury.postlight.com/parser', {
+        const response = await this.httpService.get('https://mercury.postlight.com/parser', {
             params: {
                 url: url
             },
             headers: {
                 'x-api-key': conf.mercury,
             }
-        });
+        }).toPromise();
         const mercury = response.data;
         return {
             title: mercury.title,
@@ -44,12 +46,10 @@ export class ParserService {
         };
     }
     private async htmlParse(url: string): Promise<CheerioStatic> {
-        const response = await axios.get(url);
+        const response = await this.httpService.get(url).toPromise();
         const contentType = response.headers['content-type'];
         if (contentType.indexOf('text/html') > -1) {
-            let $ = cheerio.load(response.data, {
-                decodeEntities: false
-            });
+            let $ = cheerio.load(response.data);
 
             // 修复链接地址
             ['href', 'src', 'data-src', 'data-original'].forEach((attr) => {
