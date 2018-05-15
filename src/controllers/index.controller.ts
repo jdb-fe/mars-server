@@ -28,6 +28,8 @@ export class IndexController {
         // if (post.markdown) {
         //     post.html = toHtml(post.markdown);
         // }
+        // 临时过滤掉跳转链接
+        post.html = post.html.replace(/href=".+?"/g, 'href=""');
         return {post};
     }
 
