@@ -8,6 +8,9 @@ import { AppModule } from './modules/app.module';
 import * as moment from 'moment';
 moment.locale('zh-cn');
 
+import * as session from 'express-session';
+import Config from './config';
+
 (async () => {
     const exprs = express();
     exprs.locals.moment = moment;
@@ -18,5 +21,6 @@ moment.locale('zh-cn');
     app.setViewEngine('pug');
     app.disable('x-powered-by');
     app.useGlobalPipes(new ValidationPipe());
-    await app.listen(3000);
+    app.use(session(Config.session));
+    await app.listen(Config.port);
 })();

@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { createHmac } from 'crypto';
 import * as jwt from 'jsonwebtoken';
 
 import { UserService } from './user.service';
@@ -21,7 +20,7 @@ export class AuthService {
         if (!user) {
             throw new Error('User Do not exists!');
         }
-        if (user.password !== createHmac('md5', password).digest('hex')) {
+        if (user.validPassword(password)) {
             throw new Error('Password is incorrect!');
         }
         const playload: JwtPayload = {
@@ -42,7 +41,7 @@ export class AuthService {
         if (!user) {
             throw new Error('User Do not exists!');
         }
-        if (user.password !== createHmac('md5', password).digest('hex')) {
+        if (!user.validPassword(password)) {
             throw new Error('Password is incorrect!');
         }
         return user;

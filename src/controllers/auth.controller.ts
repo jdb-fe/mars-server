@@ -1,6 +1,6 @@
-import { Controller, Get, Render, Post, Body, UseGuards, Req } from '@nestjs/common';
-import { AuthGuard } from '../guards/auth.guard';
+import { Controller, Get, Render, Post, Body, UseGuards, Req, Res, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 export class AuthController {
@@ -13,9 +13,14 @@ export class AuthController {
     }
 
     @Post('login')
-    @UseGuards(AuthGuard('local'))
-    async loginAction(@Req() req) {
-
-
+    async loginAction(@Res() res, @Req() req) {
+        try {
+            const body = req.body;
+            const user = await this.authService.validateUser(body.loginname, body.password);
+            req.session.user = user;
+            res.redirect('/admin/');
+        } catch (error) {
+            throw new UnauthorizedException(error.message);
+        }
     }
 }
