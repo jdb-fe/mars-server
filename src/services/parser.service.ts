@@ -51,6 +51,22 @@ export class ParserService {
         if (contentType.indexOf('text/html') > -1) {
             let $ = cheerio.load(response.data);
 
+            // fix https://github.com/cheeriojs/cheerio/issues/866
+            const $html = $.prototype.html;
+            $.prototype.html = function () {
+                let result = $html.apply(this, arguments);
+                if (typeof result === 'string') {
+                    result = result.replace(/&#x([0-9a-f]{1,6});/ig, (entity, code) => {
+                        code = parseInt(code, 16);
+                        if (code < 0x80) {
+                            return entity;
+                        }
+                        return String.fromCodePoint(code);
+                    });
+                }
+                return result;
+            };
+
             // 修复链接地址
             ['href', 'src', 'data-src', 'data-original'].forEach((attr) => {
                 $(`[${attr}]`).each(function () {
