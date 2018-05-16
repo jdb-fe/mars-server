@@ -8,8 +8,7 @@ export class AuthExceptionFilter implements ExceptionFilter {
         this.redirectUrl = redirectUrl;
     }
     catch(exception: UnauthorizedException, host: ArgumentsHost) {
-        const ctx = host.switchToHttp();
-        const response = ctx.getResponse();
+        const response = host.switchToHttp().getResponse();
         response.redirect(this.redirectUrl);
     }
 }
