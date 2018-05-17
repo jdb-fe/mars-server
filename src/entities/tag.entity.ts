@@ -1,5 +1,4 @@
 import { Entity, Column, ManyToOne } from 'typeorm';
-import { IsUrl } from 'class-validator';
 
 import { Base } from './base';
 import { Post } from './post.entity';
@@ -11,12 +10,15 @@ export class Tag extends Base {
     name: string;
 
     // 缩略图
-    @Column()
-    @IsUrl()
+    @Column({
+        nullable: true
+    })
     thumb: string;
 
     // 描述
-    @Column()
+    @Column({
+        nullable: true
+    })
     description: string;
 
     // 文章

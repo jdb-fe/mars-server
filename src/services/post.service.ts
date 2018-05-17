@@ -63,6 +63,7 @@ export class PostService {
                 'post.url',
                 'post.createAt',
                 'post.title',
+                'post.status',
                 'post.description',
                 'user.id',
                 'user.name',
@@ -97,6 +98,11 @@ export class PostService {
 
     find(conditions?: FindConditions<Post>) {
         return this.repository.find(conditions);
+    }
+
+    updateById(id: number, partialEntity: DeepPartial<Post>) {
+        partialEntity.id = id;
+        return this.repository.save(partialEntity);
     }
 
     update(criteria: string | string[] | number | number[] | FindConditions<Post>, partialEntity: DeepPartial<Post>) {

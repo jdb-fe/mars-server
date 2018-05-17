@@ -1,7 +1,7 @@
 import { parse } from 'url';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, UpdateResult } from 'typeorm';
+import { Repository, DeepPartial } from 'typeorm';
 import { Rule } from '../entities/rule.entity';
 
 export interface IRule {
@@ -39,7 +39,8 @@ export class RuleService {
         return findRule || rules[0];
     }
 
-    updateById(id: number, data: Object): Promise<UpdateResult> {
-        return this.repository.update(id, data);
+    updateById(id: number, data: DeepPartial<Rule>) {
+        data.id = id;
+        return this.repository.save(data);
     }
 }

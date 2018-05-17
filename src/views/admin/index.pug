@@ -1,0 +1,50 @@
+extends ../layout.pug
+
+block vars
+  - var title = "管理系统"
+
+include ../_mixins/page.pug
+include ../_mixins/a.pug
+
+block content
+    .page-header
+        h1.page-title Dashboard
+    .row.row-cards
+        .col-12
+            .card
+                .card-header
+                    h3.card-title 文章列表
+                .table-responsive
+                    table.table.card-table.table-vcenter.text-nowrap
+                        thead
+                            tr
+                                th ID
+                                th 标题
+                                th 推荐人
+                                th 状态
+                                th 时间
+                                th 操作
+                        tbody
+                            each post in posts
+                                tr
+                                    td
+                                        span.text-muted #{post.id}
+                                    td
+                                        +a(post.url, post.title)(class="text-inherit icon")
+                                            i.fe.fe-external-link
+                                    td
+                                        if post.user
+                                            span(class="avatar" style=`background-image: url(${post.user.avatar})` title=post.user.name)
+                                    td #{post.status}
+                                    td #{moment(post.createAt).format('YYYY-MM-DD hh:mm')}
+                                    td
+                                        a(class="icon mr-2" href=`/post/${post.id}` target="_blank")
+                                            i.fe.fe-eye
+                                        a(class="icon mr-2" href=`./post/edit/${post.id}`)
+                                            i.fe.fe-edit-3
+                                        a(class="icon" href=`./post/delete/${post.id}`)
+                                            i.fe.fe-trash
+                .card-footer
+                    if pages.totalPage > 1
+                        +page(pages)
+

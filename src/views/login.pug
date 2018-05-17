@@ -16,6 +16,9 @@ block content
                         form(class="card" method="POST")
                             .card-body.p-6
                                 .card-title 管理系统登录
+                                if message
+                                    .alert.alert-warning.alert-dismissible #{message}
+                                        button(type="button" class="close" data-dismiss="alert")
                                 +input('text', '用户名', 'loginname', '请输入登录用户名')(required)
                                 +input('password', '密码', 'password', '请输入密码')(required)
                                 .form-group

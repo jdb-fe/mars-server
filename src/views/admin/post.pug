@@ -1,0 +1,107 @@
+extends ../layout.pug
+
+include ../_mixins/input.pug
+include ../_mixins/a.pug
+
+block vars
+  - var title = "文章编辑"
+
+block prepend head
+    script(src="/static/js/vendors/jquery-3.2.1.min.js")
+    link(rel="stylesheet" href="/static/plugins/tui-editor/lib/codemirror/codemirror.css")
+    script(src="/static/plugins/tui-editor/lib/codemirror/codemirror.js")
+    script(src="/static/plugins/tui-editor/lib/markdown-it/markdown-it.min.js")
+    script(src="/static/plugins/tui-editor/lib/to-mark/to-mark.min.js")
+    link(rel="stylesheet" href="/static/plugins/tui-editor/lib/highlightjs/styles/github.css")
+    script(src="/static/plugins/tui-editor/lib/highlightjs/highlight.pack.min.js")
+    script(src="/static/plugins/tui-editor/lib/squire-rte/squire.js")
+    script(src="/static/plugins/tui-editor/lib/tui-code-snippet/tui-code-snippet.min.js")
+    link(rel="stylesheet" href="/static/plugins/tui-editor/lib/tui-color-picker/tui-color-picker.min.css")
+    script(src="/static/plugins/tui-editor/lib/tui-color-picker/tui-color-picker.min.js")
+    link(rel="stylesheet", href="/static/plugins/tui-editor/tui-editor.min.css")
+    link(rel="stylesheet", href="/static/plugins/tui-editor/tui-editor-contents.min.css")
+    script(src="/static/plugins/tui-editor/tui-editor-Editor.min.js")
+    script(src="/static/plugins/tui-editor/tui-editor-extScrollSync.min.js")
+    script(src="/static/plugins/tui-editor/tui-editor-extColorSyntax.min.js")
+    script(src="/static/plugins/tui-editor/tui-editor-extTable.min.js")
+
+block content
+    .row
+        .col-12
+            form(class="card" method="post")
+                .card-header
+                    h3.card-title 编辑文章
+                .card-body
+                    .row
+                        .col-12
+                            if message
+                                .alert.alert-primary.alert-dismissible #{message}
+                                    button(type="button" class="close" data-dismiss="alert")
+                            .form-group
+                                label(class="form-label") 标题
+                                .input-group
+                                    input(class="form-control" type="text" name="title" placeholder="请输入标题" value=post.title)
+                                    span.input-group-append
+                                        span.input-group-text
+                                            +a(post.url)
+                                                .fe.fe-external-link
+
+                            .form-group
+                                label(class="form-label") 图片
+                                .input-group
+                                    input(class="form-control" type="url" name="thumb" placeholder="请输入缩略图地址" value=post.thumb)
+                                    span.input-group-append
+                                        span.input-group-text
+                                            +a(post.thumb)
+                                                .fe.fe-external-link
+
+                            .form-group
+                                label.form-label 描述
+                                textarea(class="form-control" name="description" rows="4" placeholder="请输入描述信息") #{post.description}
+
+                            .form-group
+                                label.form-label 标签
+                                input(type="text" class="form-control" id="input-tags" name="tags" value=post.tags.join(','))
+
+                            .form-group
+                                label.form-label 内容
+                                #htmlEditor
+                                input(type="hidden" name="html" value=post.html id="htmlValue")
+                                input(type="hidden" name="markdown" value=post.markdown id="markdownValue")
+
+                .card-footer
+                    button(class="btn btn-primary" type="submit") 保存
+
+    script.
+        (function () {
+            var $html = $('#htmlValue');
+            var $markdown = $('#markdownValue');
+            var editor = new tui.Editor({
+                el: document.querySelector('#htmlEditor'),
+                initialEditType: 'wysiwyg',
+                previewStyle: 'vertical',
+                height: '560px',
+                initialValue: $html.val(),
+                language: 'zh',
+                usageStatistics: false,
+                exts: ['colorSyntax', 'scrollSync', 'table']
+            });
+            editor.on('change', function () {
+                $html.val(editor.isWysiwygMode() ? editor.wwEditor.getValue() : editor.getHtml());
+                $markdown.val(editor.getMarkdown());
+            });
+        })();
+        require(['jquery', 'selectize'], function ($, selectize) {
+            $(document).ready(function () {
+                $('#input-tags').selectize({
+                    delimiter: ',',
+                    persist: false,
+                    create: function (input) {
+                        return {
+                            value: input,
+                            text: input
+                        }
+                    }
+                });
+            });
+        });

@@ -20,7 +20,7 @@ export class AuthController {
             req.session.user = user;
             res.redirect('/admin/');
         } catch (error) {
-            throw new UnauthorizedException(error.message);
+            res.render('login', {message: error.message});
         }
     }
 }

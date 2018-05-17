@@ -3,6 +3,8 @@ extends layout.pug
 block vars
   - var title = "首页"
 
+include _mixins/page.pug
+
 block content
     .page-header
         h1.page-title
@@ -26,15 +28,4 @@ block content
             if pages.totalPage > 1
                 .card
                     nav.card-body
-                        ul.pagination
-                            if pages.page > 1
-                                li.page-item
-                                    a(class="page-link" href=`?page=${pages.page - 1}`) 上页
-                            - var i = 1;
-                            while i <= pages.totalPage
-                                li(class=`page-item ${i === pages.page ? 'active' : ''}`)
-                                    a(class="page-link" href=`?page=${i}`) #{i}
-                                - i++;
-                            if pages.page < pages.totalPage
-                                li.page-item
-                                    a(class="page-link" href=`?page=${pages.page + 1}`) 下页
+                        +page(pages)

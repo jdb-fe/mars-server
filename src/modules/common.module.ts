@@ -9,10 +9,11 @@ import { RuleService } from '../services/rule.service';
 import { ScheduleService } from '../services/schedule.service';
 import { WechatService } from '../services/wechat.service';
 import { UserService } from '../services/user.service';
+import { TagService } from '../services/tag.service';
 
 @Module({
     imports: [TypeOrmModule.forFeature(importToArray(entities))],
-    providers: [PostService, ConfigService, RuleService, ScheduleService, WechatService, UserService],
-    exports: [PostService, ConfigService, RuleService, ScheduleService, WechatService, UserService]
+    providers: [PostService, ConfigService, RuleService, ScheduleService, WechatService, UserService, TagService],
+    exports: [PostService, ConfigService, RuleService, ScheduleService, WechatService, UserService, TagService]
 })
 export class CommonModule {}
