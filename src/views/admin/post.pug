@@ -81,11 +81,11 @@ block content
                 initialEditType: 'wysiwyg',
                 previewStyle: 'vertical',
                 height: '560px',
-                initialValue: $html.val(),
                 language: 'zh',
                 usageStatistics: false,
                 exts: ['colorSyntax', 'scrollSync', 'table']
             });
+            editor.setHtml($html.val(), false);
             editor.on('change', function () {
                 $html.val(editor.isWysiwygMode() ? editor.wwEditor.getValue() : editor.getHtml());
                 $markdown.val(editor.getMarkdown());
