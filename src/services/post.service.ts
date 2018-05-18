@@ -55,7 +55,7 @@ export class PostService {
         }
     }
 
-    async findByPage(page = 1, limit = 15) {
+    async findByPage(page = 1, limit = 15, userId?:number) {
         const result = await this.repository.createQueryBuilder('post')
             .select([
                 'post.id',
@@ -70,6 +70,7 @@ export class PostService {
                 'user.avatar'
             ])
             .leftJoin('post.user', 'user')
+            .where(userId ? 'user.id = :id' : '1=1', {id: userId})
             .skip((page - 1) * limit)
             .take(limit)
             .getManyAndCount();
