@@ -10,6 +10,6 @@ html
             if post.user
                 img(class="page-meta-avatar" src=post.user.avatar)
                 p #{post.user.name}
-            //- p
-            //-     a(href=post.url target="_blank" rel="noopener") 原文链接
+            p
+                a(href=post.url target="_blank" rel="noopener") 原文链接
         .page-article !{post.html}

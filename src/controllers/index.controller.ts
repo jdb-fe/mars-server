@@ -29,7 +29,7 @@ export class IndexController {
         //     post.html = toHtml(post.markdown);
         // }
         // 临时过滤掉跳转链接
-        post.html = post.html.replace(/href=".+?"/g, 'href=""');
+        // post.html = post.html.replace(/href=".+?"/g, 'href=""');
         return {post};
     }
 

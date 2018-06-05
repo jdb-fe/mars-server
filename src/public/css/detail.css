@@ -394,7 +394,6 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
     font-size: 2.2rem;
 }
 
-.page-body {
-    font-size: 18px;
-    line-height: 1.8;
+.page-article {
+    line-height: 1.75;
 }
