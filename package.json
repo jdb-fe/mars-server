@@ -13,7 +13,7 @@
     "dependencies": {
         "@nestjs/common": "^5.0.1",
         "@nestjs/core": "^5.0.1",
-        "@nestjs/passport": "^1.0.10",
+        "@nestjs/passport": "^1.0.11",
         "@nestjs/typeorm": "^5.0.0",
         "cheerio": "^1.0.0-rc.2",
         "class-transformer": "^0.1.9",
@@ -37,7 +37,7 @@
         "striptags": "^3.1.1",
         "turndown": "^4.0.2",
         "turndown-plugin-gfm": "^1.0.2",
-        "typeorm": "^0.2.6",
+        "typeorm": "^0.2.7",
         "typescript": "^2.9.1",
         "wechat": "^2.1.0",
         "wechat-mp-hack": "^1.1.7"
@@ -46,8 +46,8 @@
         "@commitlint/cli": "^7.0.0",
         "@commitlint/config-conventional": "^7.0.1",
         "@types/cheerio": "^0.22.7",
-        "@types/express": "^4.11.1",
-        "@types/node": "^10.3.0",
+        "@types/express": "^4.16.0",
+        "@types/node": "^10.3.1",
         "@types/passport-jwt": "^3.0.1",
         "husky": "^0.14.3",
         "nodemon": "^1.17.5",
