@@ -20,16 +20,13 @@ export class Rule extends Base {
     path: string;
 
     // 标题解析规则
-    @Column({
-        length: 100
-    })
+    @Column()
     @MinLength(13)
     @IsNotEmpty()
     title: string;
 
     // 缩略图解析规则
     @Column({
-        length: 100,
         nullable: true
     })
     @IsOptional()
@@ -38,7 +35,6 @@ export class Rule extends Base {
 
     // 描述解析规则
     @Column({
-        length: 100,
         nullable: true
     })
     @IsOptional()
@@ -46,9 +42,7 @@ export class Rule extends Base {
     description: string;
 
     // 内容解析规则
-    @Column({
-        length: 100
-    })
+    @Column()
     @MinLength(13)
     @IsNotEmpty()
     html: string;
