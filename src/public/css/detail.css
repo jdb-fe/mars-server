@@ -271,6 +271,10 @@ hr {
     border-top: 1px solid rgba(0, 40, 100, 0.12);
 }
 
+iframe {
+    max-width: 100%;
+}
+
 /*
 
 github.com style (c) Vasily Polovnyov <vast@whiteants.net>
