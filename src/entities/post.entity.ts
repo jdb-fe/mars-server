@@ -27,12 +27,15 @@ export class Post extends Base {
 
     // 缩略图
     @Column({
-        nullable: true
+        nullable: true,
+        length: 500
     })
     thumb: string;
 
     // 原文地址
-    @Column()
+    @Column({
+        length: 500
+    })
     url: string;
 
     // 内容
