@@ -30,7 +30,7 @@ export class RuleService {
 
     async findByUrl(link: string) {
         const parsed = parse(link);
-        const rules = await this.repository.find({ host: parsed.host });
+        const rules = await this.repository.find({ host: parsed.host.replace(/^www\./, '') });
         const findRule = rules.find(rule => {
             if (rule.path && parsed.path && new RegExp(rule.path).test(parsed.path)) {
                 return true;
