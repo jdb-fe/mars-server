@@ -6,6 +6,9 @@ export const Config = {
         secret: 'mars_dFEd1233wXw',
         resave: false,
         saveUninitialized: false
+    },
+    bodyParser: {
+        limit: '500kb'
     }
 };
 export default Config;

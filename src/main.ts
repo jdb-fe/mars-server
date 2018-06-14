@@ -2,6 +2,7 @@ import * as express from 'express';
 import * as path from 'path';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
+import { json, urlencoded } from 'body-parser';
 
 import { AppModule } from './modules/app.module';
 
@@ -15,7 +16,8 @@ import Config from './config';
     const exprs = express();
     exprs.locals.moment = moment;
     const app = await NestFactory.create(AppModule, exprs, {});
-
+    app.use(json(Config.bodyParser));
+    app.use(urlencoded(Config.bodyParser));
     app.use('/static', express.static(path.join(__dirname, 'public')));
     app.setBaseViewsDir(path.join(__dirname, 'views'));
     app.setViewEngine('pug');

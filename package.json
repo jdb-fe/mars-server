@@ -15,6 +15,7 @@
         "@nestjs/core": "^5.0.1",
         "@nestjs/passport": "^1.0.11",
         "@nestjs/typeorm": "^5.0.0",
+        "body-parser": "^1.18.3",
         "cheerio": "^1.0.0-rc.2",
         "class-transformer": "^0.1.9",
         "class-validator": "^0.8.5",
