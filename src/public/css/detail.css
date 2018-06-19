@@ -194,6 +194,8 @@ table {
     margin-bottom: 1rem;
     background-color: transparent;
     border: 1px solid #dee2e6;
+    overflow: auto;
+    display: block;
 }
 
 caption {
