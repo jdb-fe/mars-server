@@ -60,7 +60,7 @@ export class WechatController {
             output = await this.parserService.data(url);
         }
         output.url = url;
-        const post = await this.postService.insert(output, openid);
+        await this.postService.insert(output, openid);
         return [{
             title: output.title,
             description: output.description,

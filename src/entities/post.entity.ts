@@ -5,6 +5,11 @@ import { Base } from './base';
 import { Tag } from './tag.entity';
 import { User } from './user.entity';
 
+export enum PostType {
+    SHARE,
+    ORIGIN
+}
+
 @Entity({
     orderBy: {
         id: 'DESC'
@@ -34,6 +39,7 @@ export class Post extends Base {
 
     // 原文地址
     @Column({
+        nullable: true,
         length: 500
     })
     url: string;
@@ -49,6 +55,13 @@ export class Post extends Base {
         nullable: true
     })
     markdown: string;
+
+    // 文章类型
+    @Column({
+        type: 'tinyint',
+        default: PostType.SHARE
+    })
+    type: number
 
     // 查看数量
     @Column({

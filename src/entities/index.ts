@@ -1,7 +1,7 @@
-export * from './comment.entity';
-export * from './post.entity';
-export * from './rule.entity';
-export * from './tag.entity';
-export * from './user.entity';
-export * from './config.entity';
-export * from './wechat.entity';
+export { Comment } from './comment.entity';
+export { Post } from './post.entity';
+export { Rule } from './rule.entity';
+export { Tag } from './tag.entity';
+export { User } from './user.entity';
+export { Config } from './config.entity';
+export { Wechat } from './wechat.entity';

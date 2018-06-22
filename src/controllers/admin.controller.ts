@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Req, Body, Render, Param, Query, UseGuards, UseFilters } from '@nestjs/common';
+import { Controller, Get, Post, Session, Res, Body, Render, Param, Query, UseGuards, UseFilters } from '@nestjs/common';
 
 import { AuthExceptionFilter } from '../filters/auth.filter';
 import { SessionGuard } from '../guards/session.guard';
@@ -8,7 +8,6 @@ import { IntPipe } from '../pipes/int.pipe';
 import { PostService } from '../services/post.service';
 import { AuthService } from '../services/auth.service';
 import { TagService } from '../services/tag.service';
-import { Tag } from '../entities/tag.entity';
 
 @Controller('admin')
 @UseFilters(new AuthExceptionFilter())
@@ -29,6 +28,25 @@ export class AdminController {
         return this.postService.findByPage(page);
     }
 
+    @Get('write')
+    @Render('admin/write')
+    write(@Session() session) {
+        const message = session.message;
+        session.message = null;
+        return { message };
+    }
+
+    @Post('write')
+    async writeSave(@Session() session, @Res() res, @Body() body) {
+        body.user = session.user;
+        if (body.tags) {
+            body.tags = await this.tagService.addTags(body.tags.split(','));
+        }
+        await this.postService.add(body);
+        session.message = '保存成功';
+        res.redirect('./write');
+    }
+
     @Get('post/edit/:id')
     @Render('admin/post')
     async postDetail(@Param('id', new IntPipe()) id) {
@@ -43,18 +61,7 @@ export class AdminController {
     @Render('admin/post')
     async postEdit(@Param('id', new IntPipe()) id, @Body() body) {
         if (body.tags) {
-            let tags = body.tags.split(',');
-            body.tags = await Promise.all(
-                tags.map(tagName =>
-                    this.tagService.findByName(tagName).then(tagEntity => {
-                        if (!tagEntity) {
-                            tagEntity = new Tag();
-                            tagEntity.name = tagName;
-                        }
-                        return tagEntity;
-                    })
-                )
-            );
+            body.tags = await this.tagService.addTags(body.tags.split(','));
         } else {
             body.tags = [];
         }

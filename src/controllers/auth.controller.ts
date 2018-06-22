@@ -1,6 +1,5 @@
-import { Controller, Get, Render, Post, Body, UseGuards, Req, Res, UnauthorizedException } from '@nestjs/common';
+import { Controller, Get, Render, Post, Session, Res, Query, Body } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
-import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 export class AuthController {
@@ -8,19 +7,21 @@ export class AuthController {
 
     @Get('login')
     @Render('login')
-    login() {
-
+    login(@Session() session) {
+        const message = session.message;
+        session.message = null;
+        return { message };
     }
 
     @Post('login')
-    async loginAction(@Res() res, @Req() req) {
+    async loginAction(@Res() res, @Session() session, @Body() body, @Query('redirect') redirect) {
         try {
-            const body = req.body;
             const user = await this.authService.validateUser(body.loginname, body.password);
-            req.session.user = user;
-            res.redirect('/admin/');
+            session.user = user;
+            res.redirect(redirect || '/admin/');
         } catch (error) {
-            res.render('login', {message: error.message});
+            session.message = error.message;
+            res.redirect('/login/');
         }
     }
 }

@@ -40,6 +40,12 @@ export class PostService {
         return this.repository.save(post);
     }
 
+    add(data: IPost) {
+        let post = new Post();
+        Object.assign(post, data);
+        return this.repository.save(post);
+    }
+
     private async getUser(openid: string): Promise<User> {
         let user = await this.userService.findByOpenId(openid);
         if (user) {

@@ -16,7 +16,7 @@ export class AuthService {
     }
 
     async createToken(loginname: string, password: string) {
-        const user = await this.userService.findByName(loginname);
+        const user = await this.userService.findOne({loginname});
         if (!user) {
             throw new Error('User Do not exists!');
         }
@@ -37,7 +37,7 @@ export class AuthService {
     }
 
     async validateUser(loginname: string, password: string): Promise<User> {
-        const user = await this.userService.findByName(loginname);
+        const user = await this.userService.findOne({loginname});
         if (!user) {
             throw new Error('User Do not exists!');
         }
