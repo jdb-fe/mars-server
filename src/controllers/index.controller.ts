@@ -24,12 +24,9 @@ export class IndexController {
     @Get('post/:id')
     @Render('detail')
     async postDetail( @Param('id', new IntPipe()) id) {
+        // 浏览量增加
+        await this.postService.increment(id, 'views');
         const post = await this.postService.findById(id);
-        // if (post.markdown) {
-        //     post.html = toHtml(post.markdown);
-        // }
-        // 临时过滤掉跳转链接
-        // post.html = post.html.replace(/href=".+?"/g, 'href=""');
         return {post};
     }
 

@@ -25,7 +25,7 @@ export class RuleService {
     }
 
     findById(id: number) {
-        return this.repository.findOne(id);
+        return this.repository.findOneOrFail(id);
     }
 
     async findByUrl(link: string) {

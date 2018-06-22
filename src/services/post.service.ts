@@ -86,7 +86,7 @@ export class PostService {
     }
 
     findById(id: number, options?: FindOneOptions<Post>) {
-        return this.repository.findOne(id, options);
+        return this.repository.findOneOrFail(id, options);
     }
 
     count(options?: FindManyOptions<Post>) {
