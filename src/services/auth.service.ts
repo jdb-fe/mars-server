@@ -12,16 +12,15 @@ export interface JwtPayload {
 
 @Injectable()
 export class AuthService {
-    constructor(private readonly userService: UserService) {
-    }
+    constructor(private readonly userService: UserService) {}
 
     async createToken(loginname: string, password: string) {
-        const user = await this.userService.findOne({loginname});
+        const user = await this.userService.findOne({ loginname });
         if (!user) {
-            throw new Error('User Do not exists!');
+            throw new Error('用户不存在或密码错误！');
         }
         if (user.validPassword(password)) {
-            throw new Error('Password is incorrect!');
+            throw new Error('用户不存在或密码错误！');
         }
         const playload: JwtPayload = {
             password: user.password,
@@ -37,13 +36,14 @@ export class AuthService {
     }
 
     async validateUser(loginname: string, password: string): Promise<User> {
-        const user = await this.userService.findOne({loginname});
-        if (!user) {
-            throw new Error('User Do not exists!');
+        try {
+            const user = await this.userService.findOne({ loginname });
+            if (!user.validPassword(password)) {
+                throw new Error('用户不存在或密码错误！');
+            }
+            return user;
+        } catch (error) {
+            throw new Error('用户不存在或密码错误！');
         }
-        if (!user.validPassword(password)) {
-            throw new Error('Password is incorrect!');
-        }
-        return user;
     }
 }

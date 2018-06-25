@@ -10,6 +10,7 @@ import * as moment from 'moment';
 moment.locale('zh-cn');
 
 import * as session from 'express-session';
+import * as cookieParser from 'cookie-parser';
 import Config from './config';
 
 (async () => {
@@ -23,6 +24,7 @@ import Config from './config';
     app.setViewEngine('pug');
     app.disable('x-powered-by');
     app.useGlobalPipes(new ValidationPipe());
+    app.use(cookieParser(Config.cookie.secret));
     app.use(session(Config.session));
     await app.listen(Config.port);
 })();

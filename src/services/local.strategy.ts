@@ -2,7 +2,6 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-local';
 import { UserService } from './user.service';
-import Config from '../config';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
@@ -17,17 +16,13 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
 
     async validate(loginname: string, password: string, done: Function) {
         try {
-            const user = await this.userService.findByName(loginname);
-
-            if (!user) {
-                return done(null, false, { message: 'Incorrect username.' });
-            }
+            const user = await this.userService.findOne({loginname});
             if (!user.validPassword(password)) {
-                return done(null, false, { message: 'Incorrect password.' });
+                return done(null, false, { message: '用户不存在或密码错误！' });
             }
             return done(null, user);
         } catch (error) {
-            return done(error);
+            return done('用户不存在或密码错误！');
         }
     }
 }

@@ -10,7 +10,7 @@ export class UserService {
         return this.repository.findOneOrFail({ openid });
     }
     findByName(loginname: string) {
-        return this.repository.findOneOrFail({ loginname });
+        return this.repository.findOne({ loginname });
     }
     findOne(conditions?: FindConditions<User>, options?: FindOneOptions<User>) {
         return this.repository.findOneOrFail(conditions, options);

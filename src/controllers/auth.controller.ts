@@ -1,4 +1,4 @@
-import { Controller, Get, Render, Post, Session, Res, Query, Body } from '@nestjs/common';
+import { Controller, Get, Render, Post, Session, Res, Req,  Query, Body  } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
 
 @Controller('auth')
@@ -14,14 +14,15 @@ export class AuthController {
     }
 
     @Post('login')
-    async loginAction(@Res() res, @Session() session, @Body() body, @Query('redirect') redirect) {
+    async loginAction(@Res() res, @Req() req, @Body() body, @Query('redirect') redirect) {
         try {
             const user = await this.authService.validateUser(body.loginname, body.password);
-            session.user = user;
+            req.cookies.user = body.remember ? user : null;
+            req.session.user = user;
             res.redirect(redirect || '/admin/');
         } catch (error) {
-            session.message = error.message;
-            res.redirect('/login/');
+            req.session.message = error.message;
+            res.redirect('/auth/login/');
         }
     }
 }

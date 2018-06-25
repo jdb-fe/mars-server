@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Session, Res, Body, Render, Param, Query, UseGuards, UseFilters } from '@nestjs/common';
 
 import { AuthExceptionFilter } from '../filters/auth.filter';
-import { SessionGuard } from '../guards/session.guard';
+import { LoginGuard } from '../guards/login.guard';
 
 import { IntPipe } from '../pipes/int.pipe';
 
@@ -11,7 +11,7 @@ import { TagService } from '../services/tag.service';
 
 @Controller('admin')
 @UseFilters(new AuthExceptionFilter())
-@UseGuards(new SessionGuard())
+@UseGuards(new LoginGuard())
 export class AdminController {
     constructor(
         private readonly postService: PostService,

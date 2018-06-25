@@ -3,7 +3,6 @@ import { Controller, Get, Render, Post, Body, Query, Param } from '@nestjs/commo
 import { PostService } from '../services/post.service';
 import { IRule, RuleService } from '../services/rule.service';
 import { IntPipe } from '../pipes/int.pipe';
-import { toHtml } from '../utils/htmlMarkdown';
 
 @Controller()
 export class IndexController {
@@ -27,7 +26,7 @@ export class IndexController {
         // 浏览量增加
         await this.postService.increment(id, 'views');
         const post = await this.postService.findById(id);
-        return {post};
+        return { post };
     }
 
     @Get('rule')
@@ -39,7 +38,7 @@ export class IndexController {
     @Post('rule')
     @Render('rule')
     async addRule(@Body() data: IRule) {
-        const ret = await this.ruleService.insert(data);
-        return {message: '添加成功'};
+        await this.ruleService.insert(data);
+        return { message: '添加成功' };
     }
 }
