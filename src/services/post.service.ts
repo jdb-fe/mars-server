@@ -119,4 +119,8 @@ export class PostService {
     increment(id: number, key: string, value = 1) {
         return this.repository.increment({id: id}, key, value);
     }
+
+    delete(id: number | number[]) {
+        return this.repository.delete(id);
+    }
 }

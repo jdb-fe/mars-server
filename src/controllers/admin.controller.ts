@@ -68,4 +68,10 @@ export class AdminController {
         const post = await this.postService.updateById(id, body);
         return { post, message: '保存成功' };
     }
+
+    @Get('post/delete/:id')
+    async deletePost(@Param('id', new IntPipe()) id, @Res() res) {
+        await this.postService.delete(id);
+        res.redirect('/admin/');
+    }
 }
